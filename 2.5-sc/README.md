@@ -2,9 +2,9 @@
 
 ## Supported tags and respective `Dockerfile` links
 
-[`2.5-sc`, `latest` (2.5-sc/Dockerfile)](https://github.com/jacobalberty/firebird-docker/blob/master/2.5-sc/Dockerfile)
+[`2.5-sc`, `latest` (*2.5-sc/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/2.5-sc/Dockerfile)
 
-[`2.5-ss` (2.5-ss/Dockerfile)](https://github.com/jacobalberty/firebird-docker/blob/master/2.5-ss/Dockerfile)
+[`2.5-ss` (*2.5-ss/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/2.5-ss/Dockerfile)
 
 ## Description
 This is a Firebird SQL Database container.
