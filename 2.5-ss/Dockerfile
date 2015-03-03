@@ -3,8 +3,10 @@ MAINTAINER Jacob Alberty <jacob.alberty@foundigital.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update
-RUN apt-get install -qy --force-yes firebird2.5-super=2.5.3.26778.ds4-5 && apt-get clean
+RUN apt-get -q update && \
+    apt-get install -qy --force-yes firebird2.5-super=2.5.3.26778.ds4-5 && \
+    apt-get -q clean && \
+    rm -rf /var/lib/apt/lists/[!partial]*
 
 RUN sed -i -e '/RemoteBindAddress =/ s/= .*/= /' /etc/firebird/2.5/firebird.conf 
 
