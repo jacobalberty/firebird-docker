@@ -27,10 +27,7 @@ Latest is the same as 2.5-sc
 
 ## Volumes:
 
-### `/etc/firebird/2.5/`
-Configuration files
-
-### `/var/lib/firebird/2.5/data/`
+### `/databases/`
 Default location to put database files
 
 ## Exposes: 
