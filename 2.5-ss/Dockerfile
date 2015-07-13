@@ -8,7 +8,7 @@ RUN apt-get update && \
     mkdir -p /home/firebird && \
     cd /home/firebird && \
     curl -o firebird-source.tar.bz2 \
-        "http://softlayer-dal.dl.sourceforge.net/project/firebird/firebird/2.5.4-Release/Firebird-2.5.4.26856-0.tar.bz2" && \
+        "http://downloads.sourceforge.net/project/firebird/firebird/2.5.4-Release/Firebird-2.5.4.26856-0.tar.bz2?r=&ts=1436816665&use_mirror=iweb" && \
     tar --strip=1 -xf firebird-source.tar.bz2 && \
     ./configure --enable-superserver --prefix=/usr/local/firebird && \
     make && \
