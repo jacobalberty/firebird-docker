@@ -30,6 +30,22 @@ Latest is the same as 2.5-sc
 ### `/databases/`
 Default location to put database files
 
+### `/var/firebird/run`
+guardian lock DIR
+
+### `/var/firebird/etc`
+config files DIR
+message files DIR
+
+### `/var/firebird/log`
+log files DIR
+
+### `/var/firebird/system`
+security database DIR
+
+### `/tmp/firebird`
+Database lock directory
+
 ## Exposes: 
 ### 3050/tcp
 
