@@ -4,6 +4,8 @@ MAINTAINER Jacob Alberty <jacob.alberty@foundigital.com>
 ENV PREFIX=/usr/local/firebird
 ENV DEBIAN_FRONTEND noninteractive
 
+ADD ./setPass.sh /home/setPass.sh
+
 RUN apt-get update && \
     apt-get install -qy libncurses5-dev bzip2 curl gcc g++ make && \
     mkdir -p /home/firebird && \
@@ -17,7 +19,7 @@ RUN apt-get update && \
         --with-fbsample=${PREFIX}/examples --with-fbsample-db=${PREFIX}/examples/empbuild --with-fbhelp=${PREFIX}/help \
         --with-fbintl=${PREFIX}/intl --with-fbmisc=${PREFIX}/misc --with-fbplugins=${PREFIX} \
         --with-fblog=/var/firebird/log --with-fbglock=/var/firebird/run \
-        --with-fbconf=/var/firebird/etc --with-fbmsg=/var/firebird/etc \
+        --with-fbconf=/var/firebird/etc --with-fbmsg=${PREFIX} \
         --with-fbsecure-db=/var/firebird/system &&\
     make && \
     make silent_install && \
@@ -26,7 +28,9 @@ RUN apt-get update && \
     rm -rf ${PREFIX}/*/.debug && \
     apt-get purge -qy --auto-remove libncurses5-dev bzip2 curl gcc g++ make  && \
     apt-get clean -q && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    /home/setPass.sh && \
+    rm -f /home/setPass.sh
 
 VOLUME ["/databases", "/var/firebird/run", "/var/firebird/etc", "/var/firebird/log", "/var/firebird/system", "/tmp/firebird"]
 
