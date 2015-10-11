@@ -6,6 +6,12 @@
 
 [`2.5-ss` (*2.5-ss/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/2.5-ss/Dockerfile)
 
+[`3.0B2`, `3.0`, `3` (*3.0-sc/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/3.0/Dockerfile)
+
+## What's New
+Beta 2 of 3.0 is being tagged so you can start testing it out.
+Firebird 3.0 is drastically different so I reccomend reading the [release notes](http://web.firebirdsql.org/download/prerelease/rlsnotes/Firebird-3.0.0_Beta2-ReleaseNotes.pdf)
+
 ## Description
 This is a Firebird SQL Database container.
 
