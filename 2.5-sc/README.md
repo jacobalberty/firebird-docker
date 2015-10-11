@@ -9,11 +9,21 @@
 [`3.0B2`, `3.0`, `3` (*3.0-sc/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/3.0/Dockerfile)
 
 ## What's New
+### 3.0 tag
 Beta 2 of 3.0 is being tagged so you can start testing it out.
 Firebird 3.0 is drastically different so I reccomend reading the [release notes](http://web.firebirdsql.org/download/prerelease/rlsnotes/Firebird-3.0.0_Beta2-ReleaseNotes.pdf)
+## Default Username/password
+The default username and password are now set to SYSDBA/masterkey.
+Please note that the 3.0 tag does not yet include the default password and will change every time a new build is pushed.
+Check /var/firebird/etc/SYSDBA.password for the credentials for your current build.
 
 ## Description
 This is a Firebird SQL Database container.
+
+## Default Login information
+Username: SYSDBA
+Password: masterkey
+Please be sure to change your password as soon as you log in.
 
 ## Environment Variables:
 ### `TZ`
