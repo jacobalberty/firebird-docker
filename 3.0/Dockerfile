@@ -3,7 +3,8 @@ MAINTAINER Jacob Alberty <jacob.alberty@foundigital.com>
 
 ENV PREFIX=/usr/local/firebird
 ENV DEBIAN_FRONTEND noninteractive
-ENV FBURL=http://downloads.sourceforge.net/project/firebird/firebird/3.0-Beta_2/Firebird-3.0.0.31896-Beta2.tar.bz2
+ENV FBURL=http://downloads.sourceforge.net/project/firebird/firebird/3.0-RC1/Firebird-3.0.0.32136-ReleaseCandidate1.tar.bz2
+
 
 ADD build.sh ./build.sh
 

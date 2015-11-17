@@ -19,7 +19,7 @@ tar --strip=1 -xf firebird-source.tar.bz2
     --with-fbintl=${PREFIX}/intl/ --with-fbmisc=${PREFIX}/misc/ --with-fbplugins=${PREFIX}/ \
     --with-fbconf=/var/firebird/etc/ --with-fbmsg=${PREFIX}/ \
     --with-fblog=/var/firebird/log/ --with-fbglock=/var/firebird/run/ \
-    --with-fbsecure-db=/var/firebird/system
+    --with-fbsecure-db=/var/firebird/system --with-system-icu
 make -j${CPUC}
 make silent_install
 cd /
