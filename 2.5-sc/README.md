@@ -6,7 +6,7 @@
 
 [`2.5-ss` (*2.5-ss/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/2.5-ss/Dockerfile)
 
-[`3.0B2`, `3.0`, `3` (*3.0-sc/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/3.0/Dockerfile)
+[`3.0RC1`, `3.0`, `3` (*3.0-sc/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/3.0/Dockerfile)
 
 ## What's New
 ### 3.0 tag
