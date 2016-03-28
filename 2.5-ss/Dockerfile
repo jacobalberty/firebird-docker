@@ -4,6 +4,8 @@ MAINTAINER Jacob Alberty <jacob.alberty@foundigital.com>
 ENV PREFIX=/usr/local/firebird
 ENV DEBIAN_FRONTEND noninteractive
 
+VOLUME ["/databases", "/var/firebird/run", "/var/firebird/etc", "/var/firebird/log", "/var/firebird/system", "/tmp/firebird"]
+
 ADD ./setPass.sh /home/setPass.sh
 
 RUN apt-get update && \
