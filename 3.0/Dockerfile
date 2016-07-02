@@ -7,7 +7,8 @@ ENV FBURL=http://downloads.sourceforge.net/project/firebird/firebird/3.0-Release
 
 ADD build.sh ./build.sh
 
-RUN ./build.sh && \
+RUN chmod +x ./build.sh && \
+    ./build.sh && \
     rm -f ./build.sh
 
 VOLUME ["/databases", "/var/firebird/run", "/var/firebird/etc", "/var/firebird/log", "/var/firebird/system", "/tmp/firebird"]
