@@ -1,7 +1,7 @@
 #!/bin/sh
 #PREFIX=/usr/local/firebird
 #DEBIAN_FRONTEND noninteractive
-#FBURL=http://downloads.sourceforge.net/project/firebird/firebird/3.0-Release/Firebird-3.0.0.32483-0.tar.bz2
+#FBURL=http://downloads.sourceforge.net/project/firebird/firebird/3.0.1-Release/Firebird-3.0.1.32609-0.tar.bz2
 
 CPUC=$(awk '/^processor/{n+=1}END{print n}' /proc/cpuinfo)
 
