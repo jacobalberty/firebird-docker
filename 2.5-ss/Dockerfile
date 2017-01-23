@@ -11,7 +11,7 @@ RUN apt-get update && \
     mkdir -p /home/firebird && \
     cd /home/firebird && \
     curl -o firebird-source.tar.bz2 -L \
-        "http://downloads.sourceforge.net/project/firebird/firebird/2.5.5-Release/Firebird-2.5.5.26952-0.tar.bz2" && \
+        "http://downloads.sourceforge.net/project/firebird/firebird/2.5.6-Release/Firebird-2.5.6.27020-0.tar.bz2" && \
     tar --strip=1 -xf firebird-source.tar.bz2 && \
     ./configure --enable-superserver \
         --prefix=${PREFIX} --with-fbbin=${PREFIX}/bin --with-fbsbin=${PREFIX}/bin --with-fblib=${PREFIX}/lib \
