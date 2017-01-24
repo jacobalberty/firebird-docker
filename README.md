@@ -1,2 +1,0 @@
-# firebird-docker
-Firebird Dockerfile
