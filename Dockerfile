@@ -29,6 +29,7 @@ RUN apt-get update && \
     apt-get purge -qy --auto-remove libncurses5-dev bzip2 curl gcc g++ make libicu-dev && \
     apt-get clean -q && \
     rm -rf /var/lib/apt/lists/* && \
+    chmod +x /home/setPass.sh && \
     /home/setPass.sh && \
     rm -f /home/setPass.sh
 
