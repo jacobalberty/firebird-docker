@@ -3,7 +3,7 @@ MAINTAINER Jacob Alberty <jacob.alberty@foundigital.com>
 
 ENV PREFIX=/usr/local/firebird
 ENV DEBIAN_FRONTEND noninteractive
-
+ENV FBURL=http://downloads.sourceforge.net/project/firebird/firebird/2.5.6-Release/Firebird-2.5.6.27020-0.tar.bz2
 ADD ./setPass.sh /home/setPass.sh
 
 RUN apt-get update && \
@@ -11,7 +11,7 @@ RUN apt-get update && \
     mkdir -p /home/firebird && \
     cd /home/firebird && \
     curl -o firebird-source.tar.bz2 -L \
-        "http://downloads.sourceforge.net/project/firebird/firebird/2.5.6-Release/Firebird-2.5.6.27020-0.tar.bz2" && \
+        "${FBURL} && \
     tar --strip=1 -xf firebird-source.tar.bz2 && \
     ./configure --enable-superserver \
         --prefix=${PREFIX} --with-fbbin=${PREFIX}/bin --with-fbsbin=${PREFIX}/bin --with-fblib=${PREFIX}/lib \
@@ -25,7 +25,7 @@ RUN apt-get update && \
     make silent_install && \
     cd / && \
     rm -rf /home/firebird && \
-    rm -rf ${PREFIX}/*/.debug && \
+    find ${PREFIX} -name .debug -exec rm {} \; && \
     apt-get purge -qy --auto-remove libncurses5-dev bzip2 curl gcc g++ make libicu-dev && \
     apt-get clean -q && \
     rm -rf /var/lib/apt/lists/* && \
