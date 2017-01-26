@@ -25,7 +25,7 @@ RUN apt-get update && \
     make silent_install && \
     cd / && \
     rm -rf /home/firebird && \
-    find ${PREFIX} -name .debug -exec rm -rf {} \; && \
+    find ${PREFIX} -name .debug -prune -exec rm -rf {} \; && \
     apt-get purge -qy --auto-remove libncurses5-dev bzip2 curl gcc g++ make libicu-dev && \
     apt-get clean -q && \
     rm -rf /var/lib/apt/lists/* && \
