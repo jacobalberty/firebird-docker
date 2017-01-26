@@ -24,7 +24,7 @@ make -j${CPUC}
 make silent_install
 cd /
 rm -rf /home/firebird
-rm -rf ${PREFIX}/*/.debug
+find ${PREFIX} -name .debug -exec rm {} \;
 apt-get purge -qy --auto-remove curl bzip2 gcc zlib1g-dev libicu-dev libtommath-dev libncurses5-dev make g++
 apt-get clean -q
 rm -rf /var/lib/apt/lists/*

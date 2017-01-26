@@ -7,7 +7,8 @@ ENV FBURL=http://downloads.sourceforge.net/project/firebird/firebird/3.0.1-Relea
 
 ADD build.sh ./build.sh
 
-RUN chmod +X ./build.sh && \
+RUN chmod +x ./build.sh && \
+    sync && \
     ./build.sh && \
     rm -f ./build.sh
 
