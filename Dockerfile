@@ -34,7 +34,7 @@ RUN apt-get update && \
     cd / && \
     rm -rf /home/firebird && \
     find ${PREFIX} -name .debug -prune -exec rm -rf {} \; && \
-    apt-get purge -qy --auto-remove
+    apt-get purge -qy --auto-remove \
         libncurses5-dev \
         bzip2 \
         curl \
