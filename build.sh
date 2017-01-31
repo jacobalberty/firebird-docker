@@ -1,12 +1,21 @@
 #!/bin/sh
-#PREFIX=/usr/local/firebird
-#DEBIAN_FRONTEND noninteractive
-#FBURL=http://downloads.sourceforge.net/project/firebird/firebird/3.0-Release/Firebird-3.0.0.32483-0.tar.bz2
 
 CPUC=$(awk '/^processor/{n+=1}END{print n}' /proc/cpuinfo)
 
 apt-get update
-apt-get install -qy curl bzip2 gcc zlib1g-dev libicu-dev libtommath-dev libncurses5-dev make g++ libicu52 libtommath0
+apt-get install -qy --no-install-recommends \
+    libicu52 \
+    libtommath0
+apt-get install -qy --no-install-recommends \
+    bzip2 \
+    curl \
+    g++ \
+    gcc \
+    libicu-dev \
+    libncurses5-dev \
+    libtommath-dev \
+    make \
+    zlib1g-dev
 mkdir -p /home/firebird
 cd /home/firebird
 curl -o firebird-source.tar.bz2 -L \
@@ -25,6 +34,14 @@ make silent_install
 cd /
 rm -rf /home/firebird
 find ${PREFIX} -name .debug -prune -exec rm -rf {} \;
-apt-get purge -qy --auto-remove curl bzip2 gcc zlib1g-dev libicu-dev libtommath-dev libncurses5-dev make g++
-apt-get clean -q
+apt-get purge -qy --auto-remove \
+    bzip2 \
+    curl \
+    g++ \
+    gcc \
+    libicu-dev \
+    libncurses5-dev \
+    libtommath-dev \
+    make \
+    zlib1g-dev
 rm -rf /var/lib/apt/lists/*
