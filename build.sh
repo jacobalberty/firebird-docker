@@ -8,6 +8,7 @@ apt-get install -qy --no-install-recommends \
     libtommath0
 apt-get install -qy --no-install-recommends \
     bzip2 \
+    ca-certificates \
     curl \
     g++ \
     gcc \
@@ -36,6 +37,7 @@ rm -rf /home/firebird
 find ${PREFIX} -name .debug -prune -exec rm -rf {} \;
 apt-get purge -qy --auto-remove \
     bzip2 \
+    ca-certificates \
     curl \
     g++ \
     gcc \
