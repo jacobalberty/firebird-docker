@@ -7,7 +7,15 @@ ENV FBURL=http://downloads.sourceforge.net/project/firebird/firebird/2.5.6-Relea
 ADD ./setPass.sh /home/setPass.sh
 
 RUN apt-get update && \
-    apt-get install -qy libncurses5-dev bzip2 curl gcc g++ make libicu-dev libicu52 && \
+    apt-get install -qy --no-install-recommends \
+        bzip2 \
+        curl \
+        g++ \
+        gcc \
+        libicu52 \
+        libicu-dev \
+        libncurses5-dev \
+        make && \
     mkdir -p /home/firebird && \
     cd /home/firebird && \
     curl -o firebird-source.tar.bz2 -L \
@@ -26,8 +34,14 @@ RUN apt-get update && \
     cd / && \
     rm -rf /home/firebird && \
     find ${PREFIX} -name .debug -prune -exec rm -rf {} \; && \
-    apt-get purge -qy --auto-remove libncurses5-dev bzip2 curl gcc g++ make libicu-dev && \
-    apt-get clean -q && \
+    apt-get purge -qy --auto-remove
+        libncurses5-dev \
+        bzip2 \
+        curl \
+        gcc \
+        g++ \
+        make \
+        libicu-dev && \
     rm -rf /var/lib/apt/lists/* && \
     chmod +x /home/setPass.sh && \
     /home/setPass.sh && \
