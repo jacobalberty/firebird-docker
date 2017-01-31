@@ -9,7 +9,7 @@ ADD ./setPass.sh /home/setPass.sh
 RUN apt-get update && \
     apt-get install -qy --no-install-recommends \
         bzip2 \
-	ca-certificates \
+        ca-certificates \
         curl \
         g++ \
         gcc \
@@ -38,7 +38,7 @@ RUN apt-get update && \
     apt-get purge -qy --auto-remove \
         libncurses5-dev \
         bzip2 \
-	ca-certificates \
+        ca-certificates \
         curl \
         gcc \
         g++ \
