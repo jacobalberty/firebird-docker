@@ -1,5 +1,5 @@
-#!/bin/sh
-
+#!/bin/bash
+set -e
 CPUC=$(awk '/^processor/{n+=1}END{print n}' /proc/cpuinfo)
 
 apt-get update
