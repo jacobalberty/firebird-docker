@@ -47,3 +47,28 @@ apt-get purge -qy --auto-remove \
     make \
     zlib1g-dev
 rm -rf /var/lib/apt/lists/*
+
+${PREFIX}/bin/isql -user sysdba employee <<EOL
+create user SYSDBA password 'masterkey';
+commit;
+quit;
+EOL
+
+cat > /var/firebird/etc/SYSDBA.password <<EOL
+# Firebird generated password for user SYSDBA is:
+#
+ISC_USER=sysdba
+ISC_PASSWORD=masterkey
+#
+# Also set legacy variable though it can't be exported directly
+#
+ISC_PASSWD=masterkey
+#
+# generated on 33842653d6db at time Wed Feb  1 18:49:55 UTC 2017
+#
+# Your password can be changed to a more suitable one using
+# SQL operator ALTER USER.
+#
+
+EOL
+
