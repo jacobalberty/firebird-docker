@@ -16,4 +16,7 @@ VOLUME ["/databases", "/var/firebird/run", "/var/firebird/etc", "/var/firebird/l
 
 EXPOSE 3050/tcp
 
-ENTRYPOINT ["/usr/local/firebird/bin/fbguard"]
+ADD docker-entrypoint.sh ${PREFIX}/docker-entrypoint.sh
+RUN chmod +x ${PREFIX}/docker-entrypoint.sh
+
+ENTRYPOINT ${PREFIX}/docker-entrypoint.sh ${PREFIX}/bin/fbguard
