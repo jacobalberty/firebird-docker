@@ -48,5 +48,5 @@ apt-get purge -qy --auto-remove \
     zlib1g-dev
 rm -rf /var/lib/apt/lists/*
 
-# This allows us to initialize a random value here
-rm -rf /var/firebird/system/security3.fdb
+# This allows us to initialize a random value for sysdba password
+mv /var/firebird/system/security3.fdb ${PREFIX}/security3.fdb
