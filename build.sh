@@ -49,4 +49,4 @@ apt-get purge -qy --auto-remove \
 rm -rf /var/lib/apt/lists/*
 
 # This allows us to initialize a random value here
-rm -rf ${PREFIX}/security3.fdb
+rm -rf /var/firebird/system/security3.fdb
