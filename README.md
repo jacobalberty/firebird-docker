@@ -25,7 +25,6 @@ This is a Firebird SQL Database container.
 ## Default Login information
 Username: SYSDBA
 Password is either set by `ISC_PASSWORD` or randomized
-Please be sure to change your password as soon as you log in.
 
 ## Environment Variables:
 ### `TZ`
@@ -33,7 +32,12 @@ TimeZone. (i.e. America/Chicago)
 
 ### `ISC_PASSWORD`
 Default `sysdba` user password, if left blank a random 32 character password will be set instead.
-The password used will be placed in /var/firebird/etc/SYSDBA.password and output in the log for the container.
+The password used will be placed in /var/firebird/etc/SYSDBA.password.
+If a random password is generated then it will be in the log for the container.
+
+### `ISC_PASSWORD_FILE`
+If set to the path to a file then ISC_PASSWORD fill contain the contents of that file.
+This is useful for using docker secrets to manage your password.
 
 ## Server Architectures
 At the moment only the "Super Classic" and "Super Server" architectures are available.
