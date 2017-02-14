@@ -1,6 +1,31 @@
 #!/bin/bash
 set -e
 
+createNewPassword() {
+    # openssl generates random data.
+        openssl </dev/null >/dev/null 2>/dev/null
+    if [ $? -eq 0 ]
+    then
+        # We generate 40 random chars, strip any '/''s and get the first 20
+        NewPasswd=`openssl rand -base64 40 | tr -d '/' | cut -c1-20`
+    fi
+
+        # If openssl is missing...
+        if [ -z "$NewPasswd" ]
+        then
+                NewPasswd=`dd if=/dev/urandom bs=10 count=1 2>/dev/null | od -x | head -n 1 | tr -d ' ' | cut -c8-27`
+        fi
+
+        # On some systems even this routines may be missing. So if
+        # the specific one isn't available then keep the original password.
+    if [ -z "$NewPasswd" ]
+    then
+        NewPasswd="masterkey"
+    fi
+
+        echo "$NewPasswd"
+}
+
 # usage: file_env VAR [DEFAULT]
 #    ie: file_env 'XYZ_DB_PASSWORD' 'example'
 # (will allow for "$XYZ_DB_PASSWORD_FILE" to fill in the value of
@@ -27,7 +52,7 @@ if [ ! -f "/var/firebird/system/security3.fdb" ]; then
     cp ${PREFIX}/security3.fdb /var/firebird/system/security3.fdb
     file_env 'ISC_PASSWORD'
     if [ -z ${ISC_PASSWORD} ]; then
-       ISC_PASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+       ISC_PASSWORD=$(createNewPassword)
        echo "setting 'SYSDBA' password to '${ISC_PASSWORD}'"
     fi
 
