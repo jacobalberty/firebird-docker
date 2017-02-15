@@ -2,6 +2,6 @@ services:
  - docker
 install:
   - docker build -t firebird .
-  - docker run -d -p 127.0.0.1:3050:3050 --name firebird firebird
 script:
-  - docker ps | grep -q firebird
+  - chmod 777 travis.sh
+  - ./travis.sh
