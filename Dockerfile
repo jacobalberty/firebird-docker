@@ -4,7 +4,7 @@ MAINTAINER Jacob Alberty <jacob.alberty@foundigital.com>
 ENV PREFIX=/usr/local/firebird
 ENV DEBIAN_FRONTEND noninteractive
 ENV FBURL=http://downloads.sourceforge.net/project/firebird/firebird/2.5.6-Release/Firebird-2.5.6.27020-0.tar.bz2
-ADD ./setPass.sh /home/setPass.sh
+ENV DBPATH=/databases
 
 RUN apt-get update && \
     apt-get install -qy --no-install-recommends \
@@ -45,12 +45,14 @@ RUN apt-get update && \
         make \
         libicu-dev && \
     rm -rf /var/lib/apt/lists/* && \
-    chmod +x /home/setPass.sh && \
-    /home/setPass.sh && \
-    rm -f /home/setPass.sh
+    mv /var/firebird/system/security2.fdb ${PREFIX}/security2.fdb
+
 
 VOLUME ["/databases", "/var/firebird/run", "/var/firebird/etc", "/var/firebird/log", "/var/firebird/system", "/tmp/firebird"]
 
 EXPOSE 3050/tcp
 
-ENTRYPOINT ["/usr/local/firebird/bin/fbguard"]
+ADD docker-entrypoint.sh ${PREFIX}/docker-entrypoint.sh
+RUN chmod +x ${PREFIX}/docker-entrypoint.sh
+
+ENTRYPOINT ${PREFIX}/docker-entrypoint.sh ${PREFIX}/bin/fbguard
