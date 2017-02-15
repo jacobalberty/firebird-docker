@@ -31,13 +31,26 @@ Password is either set by `ISC_PASSWORD` or randomized
 TimeZone. (i.e. America/Chicago)
 
 ### `ISC_PASSWORD`
-Default `sysdba` user password, if left blank a random 32 character password will be set instead.
+Default `sysdba` user password, if left blank a random 20 character password will be set instead.
 The password used will be placed in /var/firebird/etc/SYSDBA.password.
 If a random password is generated then it will be in the log for the container.
 
-### `ISC_PASSWORD_FILE`
-If set to the path to a file then ISC_PASSWORD fill contain the contents of that file.
+### `FIREBIRD_DATABASE`
+If this is set then a database will be created with this name under the `/databases` volume with the 'UTF8'
+default character set and if `FIREBIRD_USER` is also set then `FIREBIRD_USER` will be given ownership.
+
+### `FIREBIRD_USER`
+This user will be created and given ownership of `FIREBIRD_DATABASE`.
+This variable is only used if `FIREBIRD_DATABASE` is also set.
+
+### `FIREBIRD_PASSWORD`
+The password for `FIREBIRD_USER`, if left blank a random 20 character password will be set instead.
+If a random password is generated then it will be in the log for the container.
+
+### `<VARIABLE>_FILE`
+If set to the path to a file then the named variable minus the _FILE portion will contain the contents of that file.
 This is useful for using docker secrets to manage your password.
+This applies to all variables except `TZ`
 
 ## Server Architectures
 At the moment only the "Super Classic" and "Super Server" architectures are available.

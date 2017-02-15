@@ -1,6 +1,16 @@
 #!/bin/bash
 set -e
 
+build() {
+    local var="$1"
+    local stmt="$2"
+    export $var+="$(printf "\n${stmt}")"
+}
+
+run() {
+    echo "${!1}" | ${PREFIX}/bin/isql
+}
+
 createNewPassword() {
     # openssl generates random data.
         openssl </dev/null >/dev/null 2>/dev/null
@@ -82,5 +92,37 @@ EOL
 
 fi
 
-$@
+if [ -f "/var/firebird/etc/SYSDBA.password" ]; then
+    source /var/firebird/etc/SYSDBA.password
+fi;
 
+file_env 'FIREBIRD_USER'
+file_env 'FIREBIRD_PASSWORD'
+file_env 'FIREBIRD_DATABASE'
+
+build isql "set sql dialect 3;"
+if [ ! -z "${FIREBIRD_DATABASE}" -a ! -f "/databases/${FIREBIRD_DATABASE}" ]; then
+    if [ "${FIREBIRD_USER}" ];  then
+        build isql "CONNECT employee USER '${ISC_USER}' PASSWORD '${ISC_PASSWORD}';"
+        if [ -z "${FIREBIRD_PASSWORD}" ]; then
+            FIREBIRD_PASSWORD=$(createNewPassword)
+            echo "setting '${FIREBIRD_USER}' password to '${FIREBIRD_PASSWORD}'"
+        fi
+        build isql "CREATE USER ${FIREBIRD_USER} PASSWORD '${FIREBIRD_PASSWORD}';"
+        build isql "COMMIT;"
+    fi
+
+    stmt="CREATE DATABASE '/databases/${FIREBIRD_DATABASE}'"
+    if [ "${FIREBIRD_USER}" ];  then
+        stmt+=" USER '${FIREBIRD_USER}' PASSWORD '${FIREBIRD_PASSWORD}'"
+    fi
+    stmt+=" DEFAULT CHARACTER SET UTF8;";
+    build isql "${stmt}";
+    build isql "COMMIT;"
+    if [ "${isql}" ]; then
+        build isql "QUIT;"
+        run isql
+    fi
+fi
+
+$@
