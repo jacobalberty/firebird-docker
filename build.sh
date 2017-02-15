@@ -29,7 +29,7 @@ tar --strip=1 -xf firebird-source.tar.bz2
     --with-fbintl=${PREFIX}/intl/ --with-fbmisc=${PREFIX}/misc/ --with-fbplugins=${PREFIX}/ \
     --with-fbconf=/var/firebird/etc/ --with-fbmsg=${PREFIX}/ \
     --with-fblog=/var/firebird/log/ --with-fbglock=/var/firebird/run/ \
-    --with-fbsecure-db=/var/firebird/system --with-system-icu
+    --with-fbsecure-db=/var/firebird/system
 make -j${CPUC}
 make silent_install
 cd /
@@ -50,3 +50,8 @@ rm -rf /var/lib/apt/lists/*
 
 # This allows us to initialize a random value for sysdba password
 mv /var/firebird/system/security3.fdb ${PREFIX}/security3.fdb
+
+# Cleaning up to restrict access to specific path and allow changing that path easily to
+# something standard. See github issue https://github.com/jacobalberty/firebird-docker/issues/12
+sed -i 's/^#DatabaseAccess/DatabaseAccess/g' /var/firebird/etc/firebird.conf
+sed -i "s~^\(DatabaseAccess\s*=\s*\).*$~\1Restrict ${DBPATH}~" /var/firebird/etc/firebird.conf

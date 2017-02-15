@@ -101,7 +101,7 @@ file_env 'FIREBIRD_PASSWORD'
 file_env 'FIREBIRD_DATABASE'
 
 build isql "set sql dialect 3;"
-if [ ! -z "${FIREBIRD_DATABASE}" -a ! -f "/databases/${FIREBIRD_DATABASE}" ]; then
+if [ ! -z "${FIREBIRD_DATABASE}" -a ! -f "${DBPATH}/${FIREBIRD_DATABASE}" ]; then
     if [ "${FIREBIRD_USER}" ];  then
         build isql "CONNECT employee USER '${ISC_USER}' PASSWORD '${ISC_PASSWORD}';"
         if [ -z "${FIREBIRD_PASSWORD}" ]; then
@@ -112,7 +112,7 @@ if [ ! -z "${FIREBIRD_DATABASE}" -a ! -f "/databases/${FIREBIRD_DATABASE}" ]; th
         build isql "COMMIT;"
     fi
 
-    stmt="CREATE DATABASE '/databases/${FIREBIRD_DATABASE}'"
+    stmt="CREATE DATABASE '${DBPATH}/${FIREBIRD_DATABASE}'"
     if [ "${FIREBIRD_USER}" ];  then
         stmt+=" USER '${FIREBIRD_USER}' PASSWORD '${FIREBIRD_PASSWORD}'"
     fi
