@@ -1,6 +1,28 @@
 #!/bin/bash
 set -e
 
+# SuperServer doesn't include an embedded engine in its build
+# so we have to launch firebird in the background while this script runs
+# fbtry and fbkill are used to quietly launch and remove firebird in the
+# background and make sure its available before managing users/creating the db
+pidfile=/var/run/firebird/firebird.pid
+
+fbtry() {
+    if [ -f $pidfile -a -d "/proc/`cat $pidfile`" ];  then
+        return
+    fi;
+    ${PREFIX}/bin/fbguard -pidfile $pidfile -daemon
+}
+fbkill() {
+    if [ -f $pidfile ]; then
+        pid=`cat $pidfile`
+        kill "$pid"
+        while kill -0 "$pid" 2> /dev/null; do
+            sleep 0.5
+        done
+    fi
+}
+
 build() {
     local var="$1"
     local stmt="$2"
@@ -65,16 +87,16 @@ read_var() {
     echo $(source "${file}"; printf "%s" "${!var}");
 }
 
-
 if [ ! -f "/var/firebird/system/security2.fdb" ]; then
     cp ${PREFIX}/security2.fdb /var/firebird/system/security2.fdb
+    chown firebird.firebird /var/firebird/system/security2.fdb
 
     file_env 'ISC_PASSWORD'
     if [ -z ${ISC_PASSWORD} ]; then
        ISC_PASSWORD=$(createNewPassword)
        echo "setting 'SYSDBA' password to '${ISC_PASSWORD}'"
     fi
-
+    fbtry
     ${PREFIX}/bin/gsec -user SYSDBA -password "$(read_var /var/firebird/etc/SYSDBA.password ISC_PASSWD)" -modify SYSDBA -pw ${ISC_PASSWORD}
 #    ${PREFIX}/bin/isql -user sysdba employee <<EOL
 #create or alter user SYSDBA password '${ISC_PASSWORD}';
@@ -106,6 +128,8 @@ file_env 'FIREBIRD_DATABASE'
 
 build isql "set sql dialect 3;"
 if [ ! -z "${FIREBIRD_DATABASE}" -a ! -f "${DBPATH}/${FIREBIRD_DATABASE}" ]; then
+    fbtry
+
     if [ "${FIREBIRD_USER}" ];  then
         build isql "CONNECT employee USER '${ISC_USER}' PASSWORD '${ISC_PASSWORD}';"
         if [ -z "${FIREBIRD_PASSWORD}" ]; then
@@ -128,5 +152,5 @@ if [ ! -z "${FIREBIRD_DATABASE}" -a ! -f "${DBPATH}/${FIREBIRD_DATABASE}" ]; the
         run isql
     fi
 fi
-
+fbkill
 $@
