@@ -3,7 +3,7 @@ MAINTAINER Jacob Alberty <jacob.alberty@foundigital.com>
 
 ENV PREFIX=/usr/local/firebird
 ENV DEBIAN_FRONTEND noninteractive
-ENV FBURL=http://downloads.sourceforge.net/project/firebird/firebird/2.5.6-Release/Firebird-2.5.6.27020-0.tar.bz2
+ENV FBURL=http://downloads.sourceforge.net/project/firebird/firebird/2.5.7-Release/Firebird-2.5.7.27050-0.tar.bz2
 ENV DBPATH=/databases
 
 RUN apt-get update && \
