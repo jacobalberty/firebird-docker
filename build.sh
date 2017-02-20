@@ -27,7 +27,7 @@ patch -p1 < /home/patches/musl-mode_t.patch
     --with-fbconf=/var/firebird/etc/ --with-fbmsg=${PREFIX}/ \
     --with-fblog=/var/firebird/log/ --with-fbglock=/var/firebird/run/ \
     --with-fbsecure-db=/var/firebird/system --with-builtin-tommath
-make -j${CPUC}
+CXXFLAGS="-Wno-narrowing" make -j${CPUC}
 make silent_install
 cd /
 rm -rf /home/firebird
