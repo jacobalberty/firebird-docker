@@ -2,26 +2,22 @@
 set -e
 CPUC=$(awk '/^processor/{n+=1}END{print n}' /proc/cpuinfo)
 
-apt-get update
-apt-get install -qy --no-install-recommends \
-    libicu52 \
-    libtommath0
-apt-get install -qy --no-install-recommends \
-    bzip2 \
-    ca-certificates \
+apk add --no-cache --virtual=build-dependencies \
+    build-base \
     curl \
-    g++ \
-    gcc \
-    libicu-dev \
-    libncurses5-dev \
-    libtommath-dev \
-    make \
-    zlib1g-dev
+    icu-dev \
+    libtool \
+    linux-headers \
+    ncurses-dev \
+    tar \
+    zlib-dev
+
 mkdir -p /home/firebird
 cd /home/firebird
 curl -o firebird-source.tar.bz2 -L \
     "${FBURL}"
 tar --strip=1 -xf firebird-source.tar.bz2
+
 ./configure \
     --prefix=${PREFIX}/ --with-fbbin=${PREFIX}/bin/ --with-fbsbin=${PREFIX}/bin/ --with-fblib=${PREFIX}/lib/ \
     --with-fbinclude=${PREFIX}/include/ --with-fbdoc=${PREFIX}/doc/ --with-fbudf=${PREFIX}/UDF/ \
@@ -29,24 +25,13 @@ tar --strip=1 -xf firebird-source.tar.bz2
     --with-fbintl=${PREFIX}/intl/ --with-fbmisc=${PREFIX}/misc/ --with-fbplugins=${PREFIX}/ \
     --with-fbconf=/var/firebird/etc/ --with-fbmsg=${PREFIX}/ \
     --with-fblog=/var/firebird/log/ --with-fbglock=/var/firebird/run/ \
-    --with-fbsecure-db=/var/firebird/system
+    --with-fbsecure-db=/var/firebird/system --with-builtin-tommath
 make -j${CPUC}
 make silent_install
 cd /
 rm -rf /home/firebird
 find ${PREFIX} -name .debug -prune -exec rm -rf {} \;
-apt-get purge -qy --auto-remove \
-    bzip2 \
-    ca-certificates \
-    curl \
-    g++ \
-    gcc \
-    libicu-dev \
-    libncurses5-dev \
-    libtommath-dev \
-    make \
-    zlib1g-dev
-rm -rf /var/lib/apt/lists/*
+apk del build-dependencies
 
 # This allows us to initialize a random value for sysdba password
 mv /var/firebird/system/security3.fdb ${PREFIX}/security3.fdb
