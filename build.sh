@@ -18,6 +18,7 @@ curl -o firebird-source.tar.bz2 -L \
     "${FBURL}"
 tar --strip=1 -xf firebird-source.tar.bz2
 
+patch -p1 < /home/patches/musl-mode_t.patch
 ./configure \
     --prefix=${PREFIX}/ --with-fbbin=${PREFIX}/bin/ --with-fbsbin=${PREFIX}/bin/ --with-fblib=${PREFIX}/lib/ \
     --with-fbinclude=${PREFIX}/include/ --with-fbdoc=${PREFIX}/doc/ --with-fbudf=${PREFIX}/UDF/ \
