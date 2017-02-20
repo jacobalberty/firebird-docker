@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM alpine:latest
 MAINTAINER Jacob Alberty <jacob.alberty@foundigital.com>
 
 ENV PREFIX=/usr/local/firebird
@@ -7,6 +7,11 @@ ENV FBURL=http://downloads.sourceforge.net/project/firebird/firebird/3.0.1-Relea
 ENV DBPATH=/databases
 
 ADD build.sh ./build.sh
+
+RUN mkdir /home/patches
+add musl-mode_t.patch /home/patches/musl-mode_t.patch
+
+RUN apk add --no-cache bash
 
 RUN chmod +x ./build.sh && \
     sync && \

@@ -1,0 +1,14 @@
+diff --git a/src/common/os/os_utils.h b/src/common/os/os_utils.h
+index d434c98..13f7dc8 100644
+--- a/src/common/os/os_utils.h
++++ b/src/common/os/os_utils.h
+@@ -29,7 +29,7 @@
+ #define INCLUDE_OS_FILE_UTILS_H
+
+ #include <stdio.h>
+-
++#include <sys/stat.h>
+ #include "../common/classes/fb_string.h"
+ #include "../common/StatusArg.h"
+ #include "../common/classes/array.h"
+
