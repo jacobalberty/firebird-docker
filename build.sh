@@ -18,16 +18,18 @@ apk add --no-cache --virtual=build-dependencies \
     tar \
     zlib-dev
 
-mkdir -p /home/firebird
-cd /home/firebird
+SRCPATH=${PREFIX}/src
+
+mkdir -p "${SRCPATH}"
+cd "${SRCPATH}"
 curl -o firebird-source.tar.bz2 -L \
     "${FBURL}"
 tar --strip=1 -xf firebird-source.tar.bz2
 
-patch -p1 < /home/patches/musl-mode_t.patch
-patch -p1 < /home/patches/alloc.patch
-patch -p1 < /home/patches/narrowing.patch
-patch -p1 < /home/patches/parallel-build.patch
+patch -p1 < ${PREFIX}/patch/musl-mode_t.patch
+patch -p1 < ${PREFIX}/patch/alloc.patch
+patch -p1 < ${PREFIX}/patch/narrowing.patch
+patch -p1 < ${PREFIX}/patch/parallel-build.patch
 ./configure \
     --prefix=${PREFIX}/ --with-fbbin=${PREFIX}/bin/ --with-fbsbin=${PREFIX}/bin/ --with-fblib=${PREFIX}/lib/ \
     --with-fbinclude=${PREFIX}/include/ --with-fbdoc=${PREFIX}/doc/ --with-fbudf=${PREFIX}/UDF/ \
@@ -39,8 +41,8 @@ patch -p1 < /home/patches/parallel-build.patch
 CFLAGS="-fno-strict-aliasing" CXXFLAGS="-fno-delete-null-pointer-checks -fno-strict-aliasing" make -j${CPUC}
 make silent_install
 cd /
-rm -rf /home/firebird
-find ${PREFIX} -name .debug -prune -exec rm -rf {} \;
+rm -rf "${SRCPATH}"
+find "${PREFIX}" -name .debug -prune -exec rm -rf {} \;
 apk del build-dependencies
 apk add --no-cache \
     libgcc \
