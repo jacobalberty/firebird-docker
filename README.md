@@ -9,6 +9,10 @@
 [`3.0`, `3.0.1` `latest` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/Dockerfile)
 
 ## What's New
+### Alpine branch on github
+I have sort of built firebird under alpine, the build is at this time not working.
+If you see a tag show up on the docker hub but not in the supported list above then do not expect it to work.
+If you would like to poke around feel free to check out the github branch for 3.0-alpine.
 ### 2.5.7 released
 2.5.7 packages were released by the Firebird Project and the images have been updated.
 ### `ISC_PASSWORD`, `FIREBIRD_USER`, `FIREBIRD_PASSWORD` and `FIREBIRD_DATABASE`
