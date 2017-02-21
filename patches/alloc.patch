@@ -1,0 +1,21 @@
+diff --git a/src/common/classes/alloc.h b/src/common/classes/alloc.h
+index b1026ce..6be37ce 100644
+--- a/src/common/classes/alloc.h
++++ b/src/common/classes/alloc.h
+@@ -331,6 +331,16 @@ inline void operator delete[](void* mem, Firebird::MemoryPool& pool ALLOC_PARAMS
+ 	MemoryPool::globalFree(mem);
+ }
+ 
++#if __cplusplus >= 201402L
++inline void operator delete(void* mem, std::size_t s ALLOC_PARAMS) throw()
++{
++   MemoryPool::globalFree(mem);
++}
++inline void operator delete[](void* mem, std::size_t s ALLOC_PARAMS) throw()
++{
++   MemoryPool::globalFree(mem);
++}
++#endif
+ #ifdef DEBUG_GDS_ALLOC
+ 
+ #ifdef __clang__
