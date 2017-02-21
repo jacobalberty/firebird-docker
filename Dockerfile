@@ -9,7 +9,7 @@ ENV DBPATH=/databases
 ADD build.sh ./build.sh
 
 RUN mkdir /home/patches
-add musl-mode_t.patch /home/patches/musl-mode_t.patch
+ADD ./patches/ /home/patches/
 
 RUN apk add --no-cache bash
 

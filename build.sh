@@ -2,6 +2,11 @@
 set -e
 CPUC=$(awk '/^processor/{n+=1}END{print n}' /proc/cpuinfo)
 
+apk add --no-cache \
+    icu-libs \
+    procps \
+    shadow
+
 apk add --no-cache --virtual=build-dependencies \
     build-base \
     curl \
@@ -9,6 +14,7 @@ apk add --no-cache --virtual=build-dependencies \
     libtool \
     linux-headers \
     ncurses-dev \
+    procmail \
     tar \
     zlib-dev
 
@@ -19,6 +25,9 @@ curl -o firebird-source.tar.bz2 -L \
 tar --strip=1 -xf firebird-source.tar.bz2
 
 patch -p1 < /home/patches/musl-mode_t.patch
+patch -p1 < /home/patches/alloc.patch
+patch -p1 < /home/patches/narrowing.patch
+patch -p1 < /home/patches/parallel-build.patch
 ./configure \
     --prefix=${PREFIX}/ --with-fbbin=${PREFIX}/bin/ --with-fbsbin=${PREFIX}/bin/ --with-fblib=${PREFIX}/lib/ \
     --with-fbinclude=${PREFIX}/include/ --with-fbdoc=${PREFIX}/doc/ --with-fbudf=${PREFIX}/UDF/ \
@@ -27,12 +36,15 @@ patch -p1 < /home/patches/musl-mode_t.patch
     --with-fbconf=/var/firebird/etc/ --with-fbmsg=${PREFIX}/ \
     --with-fblog=/var/firebird/log/ --with-fbglock=/var/firebird/run/ \
     --with-fbsecure-db=/var/firebird/system --with-builtin-tommath
-CXXFLAGS="-Wno-narrowing" make -j${CPUC}
+CFLAGS="-fno-strict-aliasing" CXXFLAGS="-fno-delete-null-pointer-checks -fno-strict-aliasing" make -j${CPUC}
 make silent_install
 cd /
 rm -rf /home/firebird
 find ${PREFIX} -name .debug -prune -exec rm -rf {} \;
 apk del build-dependencies
+apk add --no-cache \
+    libgcc \
+    libstdc++
 
 # This allows us to initialize a random value for sysdba password
 mv /var/firebird/system/security3.fdb ${PREFIX}/security3.fdb

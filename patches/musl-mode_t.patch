@@ -11,4 +11,3 @@ index d434c98..13f7dc8 100644
  #include "../common/classes/fb_string.h"
  #include "../common/StatusArg.h"
  #include "../common/classes/array.h"
-
