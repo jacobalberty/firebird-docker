@@ -6,9 +6,11 @@
 
 [`2.5-ss`, `2.5.7-ss` (*2.5-ss/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/2.5-ss/Dockerfile)
 
-[`3.0`, `3.0.1` `latest` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/Dockerfile)
+[`3.0`, `3.0.2` `latest` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/Dockerfile)
 
 ## What's New
+### 3.0.2 released
+3.0.2 packages were released by the Firebird Project and the images have been updated.
 ### Alpine branch on github
 I have sort of built firebird under alpine, the build is at this time not working.
 If you see a tag show up on the docker hub but not in the supported list above then do not expect it to work.
