@@ -16,7 +16,7 @@ fbtry() {
 fbkill() {
     if [ -f $pidfile ]; then
         pid=`cat $pidfile`
-        kill "$pid"
+        kill "$pid" || true
         while kill -0 "$pid" 2> /dev/null; do
             sleep 0.5
         done
