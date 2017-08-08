@@ -58,8 +58,16 @@ file_env() {
     unset "$fileVar"
 }
 
-if [ ! -f "/var/firebird/system/security3.fdb" ]; then
-    cp ${PREFIX}/security3.fdb /var/firebird/system/security3.fdb
+# Create any missing folders
+mkdir -p "${VOLUME}/system"
+mkdir -p "${VOLUME}/logs"
+mkdir -p "${VOLUME}/data"
+if [[ ! -e "${VOLUME}/etc/" ]]; then
+    cp -R "${PREFIX}/skel/etc" "${VOLUME}/"
+fi
+
+if [ ! -f "${VOLUME}/system/security3.fdb" ]; then
+    cp "${PREFIX}/skel/security3.fdb" "${VOLUME}/system/security3.fdb"
     file_env 'ISC_PASSWORD'
     if [ -z ${ISC_PASSWORD} ]; then
        ISC_PASSWORD=$(createNewPassword)
@@ -72,7 +80,7 @@ commit;
 quit;
 EOL
 
-    cat > /var/firebird/etc/SYSDBA.password <<EOL
+    cat > "${VOLUME}/etc/SYSDBA.password" <<EOL
 # Firebird generated password for user SYSDBA is:
 #
 ISC_USER=sysdba
@@ -92,8 +100,8 @@ EOL
 
 fi
 
-if [ -f "/var/firebird/etc/SYSDBA.password" ]; then
-    source /var/firebird/etc/SYSDBA.password
+if [ -f "${VOLUME}/etc/SYSDBA.password" ]; then
+    source "${VOLUME}/etc/SYSDBA.password"
 fi;
 
 file_env 'FIREBIRD_USER'

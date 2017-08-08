@@ -27,7 +27,7 @@ The "Latest" tag on docker hub is now 3.0.
 
 ## Default password for `sysdba`
 The default password for `sysdba` is randomly generated when you first launch the container, 
-look in the docker log for your container or pull /var/firebird/etc/SYSDBA.password.
+look in the docker log for your container or check `/firebird/etc/SYSDBA.password`.
 Alternatively you may pass the environment variable ISC_PASSWORD to set the default password.
 
 ## Update policy
@@ -59,11 +59,11 @@ TimeZone. (i.e. America/Chicago)
 
 ### `ISC_PASSWORD`
 Default `sysdba` user password, if left blank a random 20 character password will be set instead.
-The password used will be placed in /var/firebird/etc/SYSDBA.password.
+The password used will be placed in `/firebird/etc/SYSDBA.password`.
 If a random password is generated then it will be in the log for the container.
 
 ### `FIREBIRD_DATABASE`
-If this is set then a database will be created with this name under the `/databases` volume with the 'UTF8'
+If this is set then a database will be created with this name under the `/firebird/data` volume with the 'UTF8'
 default character set and if `FIREBIRD_USER` is also set then `FIREBIRD_USER` will be given ownership.
 
 ### `FIREBIRD_USER`
@@ -91,23 +91,32 @@ Classic Server.
 
 ## Volumes:
 
-### `/databases/`
+### `/firebird`
+This single volume supercedes all of the old volumes with most of the old volumes existing as subdirectories under `/firebird`
+
+#### `/firebird/data`
 Default location to put database files
 
-### `/var/firebird/run`
-guardian lock DIR
+#### `/firebird/system`
+security database DIR
 
-### `/var/firebird/etc`
+#### `/firebird/etc`
 config files DIR
 message files DIR
 
-### `/var/firebird/log`
+#### `/firebird/log`
 log files DIR
 
-### `/var/firebird/system`
-security database DIR
+### Read Only root filesystem
+For some users they may prefer to run the filesystem in read only mode for additional security.
+These volumes would need to be created rw in order to do this.
 
-### `/tmp/firebird`
+#### `/var/firebird/run`
+This volume does not actually exist by default but you may want to create it if you wish to use a `read only` root filesystem
+guardian lock DIR
+
+#### `/tmp`
+This volume does not actually exist by default but you may want to create it if you wish to use a `read only` root filesystem
 Database lock directory
 
 ## Exposes: 
