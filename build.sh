@@ -55,3 +55,4 @@ mv /var/firebird/system/security3.fdb ${PREFIX}/security3.fdb
 # something standard. See github issue https://github.com/jacobalberty/firebird-docker/issues/12
 sed -i 's/^#DatabaseAccess/DatabaseAccess/g' /var/firebird/etc/firebird.conf
 sed -i "s~^\(DatabaseAccess\s*=\s*\).*$~\1Restrict ${DBPATH}~" /var/firebird/etc/firebird.conf
+sed -i 's/^#WireCrypt = Enabled/WireCrypt = Enabled #/g' /var/firebird/etc/firebird.conf
