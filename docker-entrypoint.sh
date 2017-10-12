@@ -86,10 +86,17 @@ read_var() {
 
     echo $(source "${file}"; printf "%s" "${!var}");
 }
+# Create any missing folders
+mkdir -p "${VOLUME}/system"
+mkdir -p "${VOLUME}/logs"
+mkdir -p "${VOLUME}/data"
+if [[ ! -e "${VOLUME}/etc/" ]]; then
+    cp -R "${PREFIX}/skel/etc" "${VOLUME}/"
+fi
 
-if [ ! -f "/var/firebird/system/security2.fdb" ]; then
-    cp ${PREFIX}/security2.fdb /var/firebird/system/security2.fdb
-    chown firebird.firebird /var/firebird/system/security2.fdb
+if [ ! -f "${VOLUME}/system/security2.fdb" ]; then
+    cp ${PREFIX}/skel/security2.fdb ${VOLUME}/system/security2.fdb
+    chown firebird.firebird ${VOLUME}/system/security2.fdb
 
     file_env 'ISC_PASSWORD'
     if [ -z ${ISC_PASSWORD} ]; then
@@ -97,14 +104,14 @@ if [ ! -f "/var/firebird/system/security2.fdb" ]; then
        echo "setting 'SYSDBA' password to '${ISC_PASSWORD}'"
     fi
     fbtry
-    ${PREFIX}/bin/gsec -user SYSDBA -password "$(read_var /var/firebird/etc/SYSDBA.password ISC_PASSWD)" -modify SYSDBA -pw ${ISC_PASSWORD}
+    ${PREFIX}/bin/gsec -user SYSDBA -password "$(read_var ${VOLUME}/etc/SYSDBA.password ISC_PASSWD)" -modify SYSDBA -pw ${ISC_PASSWORD}
 #    ${PREFIX}/bin/isql -user sysdba employee <<EOL
 #create or alter user SYSDBA password '${ISC_PASSWORD}';
 #commit;
 #quit;
 #EOL
 
-    cat > /var/firebird/etc/SYSDBA.password <<EOL
+    cat > ${VOLUME}/etc/SYSDBA.password <<EOL
 # Firebird generated password for user SYSDBA is:
 
 ISC_USER=SYSDBA
@@ -118,8 +125,8 @@ EOL
 
 fi
 
-if [ -f "/var/firebird/etc/SYSDBA.password" ]; then
-    source /var/firebird/etc/SYSDBA.password
+if [ -f "${VOLUME}/etc/SYSDBA.password" ]; then
+    source ${VOLUME}/etc/SYSDBA.password
 fi;
 
 file_env 'FIREBIRD_USER'
