@@ -2,9 +2,10 @@ FROM debian:jessie
 MAINTAINER Jacob Alberty <jacob.alberty@foundigital.com>
 
 ENV PREFIX=/usr/local/firebird
+ENV VOLUME=/firebird
 ENV DEBIAN_FRONTEND noninteractive
 ENV FBURL=http://downloads.sourceforge.net/project/firebird/firebird/2.5.7-Release/Firebird-2.5.7.27050-0.tar.bz2
-ENV DBPATH=/databases
+ENV DBPATH=/firebird/data
 
 RUN apt-get update && \
     apt-get install -qy --no-install-recommends \
@@ -27,9 +28,9 @@ RUN apt-get update && \
         --with-fbinclude=${PREFIX}/include --with-fbdoc=${PREFIX}/doc --with-fbudf=${PREFIX}/UDF \
         --with-fbsample=${PREFIX}/examples --with-fbsample-db=${PREFIX}/examples/empbuild --with-fbhelp=${PREFIX}/help \
         --with-fbintl=${PREFIX}/intl --with-fbmisc=${PREFIX}/misc --with-fbplugins=${PREFIX} \
-        --with-fblog=/var/firebird/log --with-fbglock=/var/firebird/run \
-        --with-fbconf=/var/firebird/etc --with-fbmsg=${PREFIX} \
-        --with-fbsecure-db=/var/firebird/system --with-system-icu &&\
+        --with-fblog=${VOLUME}/log --with-fbglock=/var/firebird/run \
+        --with-fbconf=${VOLUME}/etc --with-fbmsg=${PREFIX} \
+        --with-fbsecure-db=${VOLUME}/system --with-system-icu &&\
     make && \
     make silent_install && \
     cd / && \
@@ -45,10 +46,12 @@ RUN apt-get update && \
         make \
         libicu-dev && \
     rm -rf /var/lib/apt/lists/* && \
-    mv /var/firebird/system/security2.fdb ${PREFIX}/security2.fdb
+    mkdir -p "${PREFIX}/skel" && \
+    mv ${VOLUME}/system/security2.fdb ${PREFIX}/skel/security2.fdb && \
+    mv "${VOLUME}/etc" "${PREFIX}/skel"
 
 
-VOLUME ["/databases", "/var/firebird/run", "/var/firebird/etc", "/var/firebird/log", "/var/firebird/system", "/tmp/firebird"]
+VOLUME ["/firebird"]
 
 EXPOSE 3050/tcp
 
