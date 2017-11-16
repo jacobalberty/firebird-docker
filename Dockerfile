@@ -21,4 +21,6 @@ EXPOSE 3050/tcp
 ADD docker-entrypoint.sh ${PREFIX}/docker-entrypoint.sh
 RUN chmod +x ${PREFIX}/docker-entrypoint.sh
 
-ENTRYPOINT ${PREFIX}/docker-entrypoint.sh ${PREFIX}/bin/fbguard
+ENTRYPOINT ["/usr/local/firebird/docker-entrypoint.sh"]
+
+CMD ["/usr/local/firebird/bin/fbguard"]
