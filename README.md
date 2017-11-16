@@ -74,6 +74,23 @@ This variable is only used if `FIREBIRD_DATABASE` is also set.
 The password for `FIREBIRD_USER`, if left blank a random 20 character password will be set instead.
 If a random password is generated then it will be in the log for the container.
 
+### `EnableLegacyClientAuth`
+
+When launching without an existing /firebird/etc folder this will cause the newly created firebird.conf to have 
+the following defaults:
+```
+AuthServer = Legacy_Auth, Srp, Win_Sspi 
+AuthClient = Legacy_Auth, Srp, Win_Sspi 
+UserManager = Legacy_UserManager, Srp 
+WireCrypt = enabled 
+```
+This will allow legacy clients to connect and authenticate.
+
+### `EnableWireCrypt`
+
+When launching without an existing /firebird/etc folder this will cause the newly created firebird.conf to have
+`WireCrypt = enabled` to allow compatibility with Jaybird 3
+
 ### `<VARIABLE>_FILE`
 If set to the path to a file then the named variable minus the _FILE portion will contain the contents of that file.
 This is useful for using docker secrets to manage your password.
