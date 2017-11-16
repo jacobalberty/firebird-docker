@@ -58,12 +58,31 @@ file_env() {
     unset "$fileVar"
 }
 
+confSet() {
+    confFile="${VOLUME}/etc/firebird.conf"
+    # Uncomment specified value
+    sed -i "s/^#${1}/${1}/g" "${confFile}"
+    # Set Value to new value
+    sed -i "s~^\(${1}\s*=\s*\).*$~\1${2}~" "${confFile}"
+}
+
 # Create any missing folders
 mkdir -p "${VOLUME}/system"
 mkdir -p "${VOLUME}/logs"
 mkdir -p "${VOLUME}/data"
 if [[ ! -e "${VOLUME}/etc/" ]]; then
     cp -R "${PREFIX}/skel/etc" "${VOLUME}/"
+    file_env 'EnableLegacyClientAuth'
+    file_env 'EnableWireCrypt'
+    if [[ ${EnableLegacyClientAuth} == 'true' ]]; then
+        confSet AuthServer "Legacy_Auth, Srp, Win_Sspi"
+        confSet AuthClient "Legacy_Auth, Srp, Win_Sspi"
+        confSet UserManager "Legacy_UserManager, Srp"
+        confSet WireCrypt "enabled"
+    fi
+    if [[ ${EnableWireCrypt} == 'true' ]]; then
+        confSet WireCrypt "enabled"
+    fi
 fi
 
 if [ ! -f "${VOLUME}/system/security3.fdb" ]; then
