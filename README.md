@@ -76,7 +76,7 @@ If a random password is generated then it will be in the log for the container.
 
 ### `EnableLegacyClientAuth`
 
-When launching without an existing /firebird/etc folder this will cause the newly created firebird.conf to have 
+If this is set to true then when launching without an existing /firebird/etc folder this will cause the newly created firebird.conf to have 
 the following defaults:
 ```
 AuthServer = Legacy_Auth, Srp, Win_Sspi 
@@ -88,7 +88,7 @@ This will allow legacy clients to connect and authenticate.
 
 ### `EnableWireCrypt`
 
-When launching without an existing /firebird/etc folder this will cause the newly created firebird.conf to have
+If this is set to true then when launching without an existing /firebird/etc folder this will cause the newly created firebird.conf to have
 `WireCrypt = enabled` to allow compatibility with Jaybird 3
 
 ### `<VARIABLE>_FILE`
