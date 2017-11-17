@@ -55,7 +55,7 @@ VOLUME ["/firebird"]
 
 EXPOSE 3050/tcp
 
-ADD docker-entrypoint.sh ${PREFIX}/docker-entrypoint.sh
+COPY docker-entrypoint.sh ${PREFIX}/docker-entrypoint.sh
 RUN chmod +x ${PREFIX}/docker-entrypoint.sh
 
 COPY docker-healthcheck.sh ${PREFIX}/docker-healthcheck.sh
