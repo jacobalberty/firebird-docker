@@ -65,4 +65,7 @@ RUN chmod +x ${PREFIX}/docker-healthcheck.sh \
     && rm -rf /var/lib/apt/lists/*
 HEALTHCHECK CMD ${PREFIX}/docker-healthcheck.sh || exit 1
 
-ENTRYPOINT ${PREFIX}/docker-entrypoint.sh ${PREFIX}/bin/fbguard
+ENTRYPOINT ["/usr/local/firebird/docker-entrypoint.sh"]
+
+CMD ["/usr/local/firebird/bin/fbguard"]
+
