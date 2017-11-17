@@ -9,6 +9,8 @@
 [`3.0`, `3.0.2` `latest` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/Dockerfile)
 
 ## What's New
+### Health Check support
+I have added a simple health check script that monitors the servers status.
 ### 3.0.2 released
 3.0.2 packages were released by the Firebird Project and the images have been updated.
 ### Alpine branch on github
@@ -138,6 +140,18 @@ Database lock directory
 
 ## Exposes: 
 ### 3050/tcp
+
+## Health Check
+I have now added [HEALTHCHECK support](https://docs.docker.com/engine/reference/builder/#healthcheck) to the image. By default it uses nc to check port 3050.
+If you would like it to perform a more thorough check then you can create `/firebird/etc/docker-healthcheck.conf`
+If you add `HC_USER` `HC_PASS` and `HC_DB` to that file then the healthcheck will attempt a simple query against the specified database to determine server status.
+
+Example `docker-healthcheck.conf`:
+```
+HC_USER=SYSDBA
+HC_PASS=masterkey
+HC_DB=employee.fdb
+```
 
 ## Events
 Please note for events to work properly you must either configure RemoteAuxPort and forward it with -p using a direct mapping where both sides internal and external use the same port or use --net=host to allow the random port mapping to work.
