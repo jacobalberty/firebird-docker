@@ -68,7 +68,7 @@ confSet() {
 
 # Create any missing folders
 mkdir -p "${VOLUME}/system"
-mkdir -p "${VOLUME}/logs"
+mkdir -p "${VOLUME}/log"
 mkdir -p "${VOLUME}/data"
 if [[ ! -e "${VOLUME}/etc/" ]]; then
     cp -R "${PREFIX}/skel/etc" "${VOLUME}/"
