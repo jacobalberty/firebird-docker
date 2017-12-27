@@ -93,7 +93,7 @@ if [ ! -f "${VOLUME}/system/security3.fdb" ]; then
        echo "setting 'SYSDBA' password to '${ISC_PASSWORD}'"
     fi
 
-    ${PREFIX}/bin/isql -user sysdba employee <<EOL
+    ${PREFIX}/bin/isql -user sysdba "${VOLUME}/system/security3.fdb" <<EOL
 create or alter user SYSDBA password '${ISC_PASSWORD}';
 commit;
 quit;
