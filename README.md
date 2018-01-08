@@ -2,30 +2,17 @@
 
 ## Supported tags and respective `Dockerfile` links
 
-[`2.5-sc`, `2.5.7-sc` (*2.5-sc/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/2.5-sc/Dockerfile)
+[`2.5-sc`, `2.5.8-sc` (*2.5-sc/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/2.5-sc/Dockerfile)
 
-[`2.5-ss`, `2.5.7-ss` (*2.5-ss/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/2.5-ss/Dockerfile)
+[`2.5-ss`, `2.5.8-ss` (*2.5-ss/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/2.5-ss/Dockerfile)
 
 [`3.0`, `3.0.2` `latest` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/Dockerfile)
 
 ## What's New
-### Health Check support
-I have added a simple health check script that monitors the servers status.
-### 3.0.2 released
-3.0.2 packages were released by the Firebird Project and the images have been updated.
-### Alpine branch on github
-I have sort of built firebird under alpine, the build is at this time not working.
-If you see a tag show up on the docker hub but not in the supported list above then do not expect it to work.
-If you would like to poke around feel free to check out the github branch for 3.0-alpine.
-### 2.5.7 released
-2.5.7 packages were released by the Firebird Project and the images have been updated.
-### `ISC_PASSWORD`, `FIREBIRD_USER`, `FIREBIRD_PASSWORD` and `FIREBIRD_DATABASE`
-Support for setting the SYSDBA password through `ISC_PASSWORD` variable and creation of users/a default database
-through `FIREBIRD_USER`, `FIREBIRD_PASSWORD` and `FIREBIRD_DATABASE`.
-### Using Dynamic Matching on the Docker Hub now.
-This will allow me to maintain more tags and branches to include older legacy versions and allow you pin against a specific version.
-### 3.0 is now default
-The "Latest" tag on docker hub is now 3.0.
+### 2.5.8 Sub Release
+Firebird Project is happy to announce general availability of [Firebird 2.5.8](https://firebirdsql.org/en/firebird-2-5-8/) — the latest minor release in the Firebird 2.5 series.
+
+This sub-release introduces several bug fixes and a few improvements, please refer to the [Release Notes](https://firebirdsql.org/file/documentation/release_notes/html/en/2_5/rlsnotes25.html) for the full list of changes. Binary kits for Windows and Linux on both 32-bit and 64-bit platforms are immediately available for [download](https://firebirdsql.org/en/firebird-2-5-8/). Binary kits for Mac OS X will follow shortly.
 
 ## Default password for `sysdba`
 The default password for `sysdba` is randomly generated when you first launch the container, 
