@@ -20,7 +20,7 @@ RUN apt-get update && \
         make && \
     mkdir -p /home/firebird && \
     cd /home/firebird && \
-    curl -o firebird-source.tar.bz2 -L \
+    curl -L -o firebird-source.tar.bz2 -L \
         "${FBURL}" && \
     tar --strip=1 -xf firebird-source.tar.bz2 && \
     ./configure --enable-superserver \
