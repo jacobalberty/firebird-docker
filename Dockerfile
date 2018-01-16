@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM arm32v7/debian:jessie
 LABEL maintainer="jacob.alberty@foundigital.com"
 
 ENV PREFIX=/usr/local/firebird
