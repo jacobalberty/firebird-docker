@@ -17,6 +17,7 @@ RUN apt-get update && \
         libicu52 \
         libicu-dev \
         libncurses5-dev \
+        libatomic-ops-dev \
         make && \
     mkdir -p /home/firebird && \
     cd /home/firebird && \
@@ -30,7 +31,7 @@ RUN apt-get update && \
         --with-fbintl=${PREFIX}/intl --with-fbmisc=${PREFIX}/misc --with-fbplugins=${PREFIX} \
         --with-fblog=${VOLUME}/log --with-fbglock=/var/firebird/run \
         --with-fbconf=${VOLUME}/etc --with-fbmsg=${PREFIX} \
-        --with-fbsecure-db=${VOLUME}/system --with-system-icu &&\
+        --with-fbsecure-db=${VOLUME}/system --with-system-icu && \
     make && \
     make silent_install && \
     cd / && \
@@ -38,6 +39,7 @@ RUN apt-get update && \
     find ${PREFIX} -name .debug -prune -exec rm -rf {} \; && \
     apt-get purge -qy --auto-remove \
         libncurses5-dev \
+        libatomic-ops-dev \
         bzip2 \
         ca-certificates \
         curl \
