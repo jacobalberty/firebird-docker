@@ -5,7 +5,7 @@ LABEL maintainer="jacob.alberty@foundigital.com"
 ENV PREFIX=/usr/local/firebird
 ENV VOLUME=/firebird
 ENV DEBIAN_FRONTEND noninteractive
-ENV FBURL=http://downloads.sourceforge.net/project/firebird/firebird/3.0.2-Release/Firebird-3.0.2.32703-0.tar.bz2
+ENV FBURL=https://github.com/FirebirdSQL/firebird/releases/download/R3_0_3/Firebird-3.0.3.32900-0.tar.bz2
 ENV DBPATH=/firebird/data
 
 COPY build.sh ./build.sh
