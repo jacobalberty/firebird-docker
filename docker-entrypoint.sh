@@ -94,10 +94,12 @@ if [ ! -f "${VOLUME}/system/security3.fdb" ]; then
     fi
 
     ${PREFIX}/bin/isql -user sysdba "${VOLUME}/system/security3.fdb" <<EOL
-create or alter user SYSDBA password '${ISC_PASSWORD}';
+create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Legacy_UserManager;
+create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Srp;
 commit;
 quit;
 EOL
+# create or alter user SYSDBA password '${ISC_PASSWORD}';
 
     cat > "${VOLUME}/etc/SYSDBA.password" <<EOL
 # Firebird generated password for user SYSDBA is:
