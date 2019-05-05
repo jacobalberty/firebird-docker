@@ -93,12 +93,21 @@ if [ ! -f "${VOLUME}/system/security3.fdb" ]; then
        echo "setting 'SYSDBA' password to '${ISC_PASSWORD}'"
     fi
 
+    # initialize SYSDBA user for Srp authentication
     ${PREFIX}/bin/isql -user sysdba "${VOLUME}/system/security3.fdb" <<EOL
-create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Legacy_UserManager;
 create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Srp;
 commit;
 quit;
 EOL
+
+    if [[ ${EnableLegacyClientAuth} == 'true' ]]; then
+        # also initialize/reset SYSDBA user for legacy authentication
+        ${PREFIX}/bin/isql -user sysdba "${VOLUME}/system/security3.fdb" <<EOL
+create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Legacy_UserManager;
+commit;
+quit;
+EOL
+    fi
 # create or alter user SYSDBA password '${ISC_PASSWORD}';
 
     cat > "${VOLUME}/etc/SYSDBA.password" <<EOL
