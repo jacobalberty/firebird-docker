@@ -21,9 +21,9 @@ Firebird Project is happy to announce general availability of [Firebird 2.5.8](h
 This sub-release introduces several bug fixes and a few improvements, please refer to the [Release Notes](https://firebirdsql.org/file/documentation/release_notes/html/en/2_5/rlsnotes25.html) for the full list of changes. Binary kits for Windows and Linux on both 32-bit and 64-bit platforms are immediately available for [download](https://firebirdsql.org/en/firebird-2-5-8/). Binary kits for Mac OS X will follow shortly.
 
 ## Default password for `sysdba`
-The default password for `sysdba` is randomly generated when you first launch the container, 
+The default password for `sysdba` is randomly generated when you first launch the container,
 look in the docker log for your container or check `/firebird/etc/SYSDBA.password`.
-Alternatively you may pass the environment variable ISC_PASSWORD to set the default password.
+Alternatively you may pass the environment variable `ISC_PASSWORD` to set the default password.
 
 ## Update policy
 ### Stable releases
@@ -38,14 +38,14 @@ On request I am happy to attempt to backport any 3.0 image feature to the 2.5 br
 ### Development policy
 4.0 is presently in alpha I would like to start maintaining images when it moves into beta if time permits.
 Until 4.0 hits RC stage I don't believe it will be feasible for me to maintain up to date images of 4.0 though
-and until final release is made I do not intend to promise stability of tags, ie as new release candidates or betas 
+and until final release is made I do not intend to promise stability of tags, ie as new release candidates or betas
 get released I may remove older 4.0 tags.
 
 ## Description
 This is a Firebird SQL Database container.
 
 ## Default Login information
-Username: SYSDBA
+Username: `SYSDBA`
 Password is either set by `ISC_PASSWORD` or randomized
 
 ## Environment Variables:
@@ -71,23 +71,23 @@ If a random password is generated then it will be in the log for the container.
 
 ### `EnableLegacyClientAuth`
 
-If this is set to true then when launching without an existing /firebird/etc folder this will cause the newly created firebird.conf to have 
+If this is set to true then when launching without an existing /firebird/etc folder this will cause the newly created firebird.conf to have
 the following defaults:
 ```
-AuthServer = Legacy_Auth, Srp, Win_Sspi 
-AuthClient = Legacy_Auth, Srp, Win_Sspi 
-UserManager = Legacy_UserManager, Srp 
-WireCrypt = enabled 
+AuthServer = Legacy_Auth, Srp, Win_Sspi
+AuthClient = Legacy_Auth, Srp, Win_Sspi
+UserManager = Legacy_UserManager, Srp
+WireCrypt = enabled
 ```
 This will allow legacy clients to connect and authenticate.
 
 ### `EnableWireCrypt`
 
-If this is set to true then when launching without an existing /firebird/etc folder this will cause the newly created firebird.conf to have
-`WireCrypt = enabled` to allow compatibility with Jaybird 3
+If this is set to `true` then when launching without an existing `/firebird/etc` folder this will cause the newly created `firebird.conf`
+to have `WireCrypt = enabled` to allow compatibility with Jaybird 3.
 
 ### `<VARIABLE>_FILE`
-If set to the path to a file then the named variable minus the _FILE portion will contain the contents of that file.
+If set to the path to a file then the named variable minus the `_FILE` portion will contain the contents of that file.
 This is useful for using docker secrets to manage your password.
 This applies to all variables except `TZ`
 
@@ -131,7 +131,7 @@ guardian lock DIR
 This volume does not actually exist by default but you may want to create it if you wish to use a `read only` root filesystem
 Database lock directory
 
-## Exposes: 
+## Exposes:
 ### 3050/tcp
 
 ## Health Check
