@@ -2,9 +2,9 @@
 
 ## Supported tags and respective `Dockerfile` links
 
-[`2.5-sc`, `2.5.8-sc` (*2.5-sc/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/2.5-sc/Dockerfile)
+[`2.5-sc`, `2.5.9-sc` (*2.5-sc/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/2.5-sc/Dockerfile)
 
-[`2.5-ss`, `2.5.8-ss` (*2.5-ss/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/2.5-ss/Dockerfile)
+[`2.5-ss`, `2.5.9-ss` (*2.5-ss/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/2.5-ss/Dockerfile)
 
 [`3.0`, `3.0.4` `latest` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/Dockerfile)
 
@@ -15,10 +15,12 @@ Firebird Project is happy to announce general availability of Firebird [3.0.4](h
 This sub-release offers many bug fixes and also adds a few improvements, please refer to the [Release Notes](https://www.firebirdsql.org/file/documentation/release_notes/html/en/3_0/rlsnotes30.html) for the full list of changes. Binary kits for Windows, Linux and Android platforms are immediately available for [download](https://www.firebirdsql.org/en/firebird-3-0-4/), Mac OS kits will follow shortly.
 
 
-### 2.5.8 Sub Release
-Firebird Project is happy to announce general availability of [Firebird 2.5.8](https://firebirdsql.org/en/firebird-2-5-8/) — the latest minor release in the Firebird 2.5 series.
+### 2.5.9 Sub Release
+The Firebird Project is happy to announce the general availability of [Firebird 2.5.9](https://firebirdsql.org/en/firebird-2-5-9/) — the latest minor release in the Firebird 2.5 series.
 
-This sub-release introduces several bug fixes and a few improvements, please refer to the [Release Notes](https://firebirdsql.org/file/documentation/release_notes/html/en/2_5/rlsnotes25.html) for the full list of changes. Binary kits for Windows and Linux on both 32-bit and 64-bit platforms are immediately available for [download](https://firebirdsql.org/en/firebird-2-5-8/). Binary kits for Mac OS X will follow shortly.
+This sub-release introduces several bug fixes and a few improvements, please refer to the [Release Notes](https://firebirdsql.org/file/documentation/release_notes/html/en/2_5/rlsnotes25.html) for the full list of changes. Binary kits for Windows, Linux and MacOS X (both 32-bit and 64-bit) are immediately available for [download](https://firebirdsql.org/en/firebird-2-5-9/).
+
+Also, in accordance with its release [lifetime policy](https://firebirdsql.org/en/release-policy/), the Firebird Project advises that the Firebird v2.5 series has reached its [end-of-life](http://en.wikipedia.org/wiki/End-of-life_(product)) and thus will not be maintained further. Once Firebird 4.0 is released, this last official release in the v.2.5 series, [Firebird 2.5.9](https://firebirdsql.org/en/firebird-2-5-9/), will be moved to the ["Discontinued Versions"](https://firebirdsql.org/en/discontinued-versions/) section of the download area.
 
 ## Default password for `sysdba`
 The default password for `sysdba` is randomly generated when you first launch the container, 
