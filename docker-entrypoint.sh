@@ -85,8 +85,8 @@ if [[ ! -e "${VOLUME}/etc/" ]]; then
     fi
 fi
 
-if [ ! -f "${VOLUME}/system/security3.fdb" ]; then
-    cp "${PREFIX}/skel/security3.fdb" "${VOLUME}/system/security3.fdb"
+if [ ! -f "${VOLUME}/system/security4.fdb" ]; then
+    cp "${PREFIX}/skel/security4.fdb" "${VOLUME}/system/security4.fdb"
     file_env 'ISC_PASSWORD'
     if [ -z ${ISC_PASSWORD} ]; then
        ISC_PASSWORD=$(createNewPassword)
@@ -94,7 +94,7 @@ if [ ! -f "${VOLUME}/system/security3.fdb" ]; then
     fi
 
     # initialize SYSDBA user for Srp authentication
-    ${PREFIX}/bin/isql -user sysdba "${VOLUME}/system/security3.fdb" <<EOL
+    ${PREFIX}/bin/isql -user sysdba "${VOLUME}/system/security4.fdb" <<EOL
 create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Srp;
 commit;
 quit;
@@ -102,7 +102,7 @@ EOL
 
     if [[ ${EnableLegacyClientAuth} == 'true' ]]; then
         # also initialize/reset SYSDBA user for legacy authentication
-        ${PREFIX}/bin/isql -user sysdba "${VOLUME}/system/security3.fdb" <<EOL
+        ${PREFIX}/bin/isql -user sysdba "${VOLUME}/system/security4.fdb" <<EOL
 create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Legacy_UserManager;
 commit;
 quit;
