@@ -6,7 +6,9 @@
 
 [`2.5-ss`, `2.5.9-ss` (*2.5-ss/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/2.5-ss/Dockerfile)
 
-[`3.0`, `3.0.4` `latest` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/Dockerfile)
+[`3.0`, `3.0.4`, `latest` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/Dockerfile)
+
+[`4.0`, `beta` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/beta/Dockerfile)
 
 ## What's New
 ### 3.0.4 Sub Release
@@ -36,12 +38,12 @@ Tags other than the latest release will not be updated as image specific feature
 #### 3.0
 Any new image features will be developed on the 3.0 releases
 #### 2.5
-On request I am happy to attempt to backport any 3.0 image feature to the 2.5 branches
+The 2.5 series was eol'd by the firebird guys as of the 2.5.9 release. I do not anticipate any further updates to the 2.5 images.
 ### Development policy
-4.0 is presently in alpha I would like to start maintaining images when it moves into beta if time permits.
-Until 4.0 hits RC stage I don't believe it will be feasible for me to maintain up to date images of 4.0 though
-and until final release is made I do not intend to promise stability of tags, ie as new release candidates or betas 
-get released I may remove older 4.0 tags.
+4.0 has finally entered beta and along with it has some pretty major changes including ODS changes requiring a complete backup and restore to upgrade.
+Because of this I am taking the opportunity to update the underlying debian image to debian buster. Currently the image builds but I have not tested using it yet.
+In the coming months I will start making it usable.
+I hope to have the 4.0 image usable by the time the official sources are at release candidate status.
 
 ## Description
 This is a Firebird SQL Database container.
