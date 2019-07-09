@@ -4,7 +4,9 @@ CPUC=$(awk '/^processor/{n+=1}END{print n}' /proc/cpuinfo)
 
 apt-get update
 apt-get install -qy --no-install-recommends \
+    libatomic1 \
     libicu63 \
+    libncurses6 \
     libtomcrypt1 \
     libtommath1
 apt-get install -qy --no-install-recommends \
@@ -14,7 +16,7 @@ apt-get install -qy --no-install-recommends \
     g++ \
     gcc \
     libicu-dev \
-    libncurses5-dev \
+    libncurses-dev \
     libtomcrypt-dev \
     libtommath-dev \
     make \
