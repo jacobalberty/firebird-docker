@@ -153,6 +153,8 @@ if [ ! -z "${FIREBIRD_DATABASE}" -a ! -f "${DBPATH}/${FIREBIRD_DATABASE}" ]; the
     stmt="CREATE DATABASE '${DBPATH}/${FIREBIRD_DATABASE}'"
     if [ "${FIREBIRD_USER}" ];  then
         stmt+=" USER '${FIREBIRD_USER}' PASSWORD '${FIREBIRD_PASSWORD}'"
+    else
+        stmt+=" USER '${ISC_USER}' PASSWORD '${ISC_PASSWORD}'"
     fi
     stmt+=" DEFAULT CHARACTER SET UTF8;";
     build isql "${stmt}";
