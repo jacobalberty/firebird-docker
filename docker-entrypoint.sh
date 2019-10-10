@@ -12,6 +12,8 @@ fbtry() {
         return
     fi;
     ${PREFIX}/bin/fbguard -pidfile $pidfile -daemon
+    # Try every second to access the firebird port, timout after 10 seconds and just hope it came up on a different port
+    timeout 10 sh -c 'until nc -z $0 $1; do sleep 1; done' localhost 3050
 }
 fbkill() {
     if [ -f $pidfile ]; then
