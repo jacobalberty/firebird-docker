@@ -165,4 +165,12 @@ if [ ! -z "${FIREBIRD_DATABASE}" -a ! -f "${DBPATH}/${FIREBIRD_DATABASE}" ]; the
     fi
 fi
 
+while IFS=';' read -ra FBALIAS; do
+    for i in "${FBALIAS[@]}"; do
+	if [ -z "${i##*=*}" ]; then
+            ${PREFIX}/bin/registerDatabase.sh "${i%=*}" "${i#*=}"
+        fi
+    done
+done <<< "$FIREBIRD_ALIASES"
+
 $@
