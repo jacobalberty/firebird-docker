@@ -94,7 +94,7 @@ if [ ! -f "${VOLUME}/system/security4.fdb" ]; then
     fi
 
     # initialize SYSDBA user for Srp authentication
-    ${PREFIX}/bin/isql -user sysdba "${VOLUME}/system/security4.fdb" <<EOL
+    ${PREFIX}/bin/isql -user sysdba security.db <<EOL
 create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Srp;
 commit;
 quit;
@@ -102,7 +102,7 @@ EOL
 
     if [[ ${EnableLegacyClientAuth} == 'true' ]]; then
         # also initialize/reset SYSDBA user for legacy authentication
-        ${PREFIX}/bin/isql -user sysdba "${VOLUME}/system/security4.fdb" <<EOL
+        ${PREFIX}/bin/isql -user sysdba security.db <<EOL
 create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Legacy_UserManager;
 commit;
 quit;
