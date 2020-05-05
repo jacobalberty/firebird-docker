@@ -4,16 +4,18 @@ CPUC=$(awk '/^processor/{n+=1}END{print n}' /proc/cpuinfo)
 
 apt-get update
 apt-get install -qy --no-install-recommends \
-    libicu52 \
-    libtommath0
+    libicu63 \
+    libncurses6 \
+    libtommath1
 apt-get install -qy --no-install-recommends \
     bzip2 \
     ca-certificates \
     curl \
+    file \
     g++ \
     gcc \
     libicu-dev \
-    libncurses5-dev \
+    libncurses-dev \
     libtommath-dev \
     make \
     zlib1g-dev
@@ -39,10 +41,11 @@ apt-get purge -qy --auto-remove \
     bzip2 \
     ca-certificates \
     curl \
+    file \
     g++ \
     gcc \
     libicu-dev \
-    libncurses5-dev \
+    libncurses-dev \
     libtommath-dev \
     make \
     zlib1g-dev
