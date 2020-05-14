@@ -10,7 +10,6 @@ apt-get install -qy --no-install-recommends \
     libtomcrypt1 \
     libtommath1
 apt-get install -qy --no-install-recommends \
-    bzip2 \
     ca-certificates \
     curl \
     g++ \
@@ -20,12 +19,14 @@ apt-get install -qy --no-install-recommends \
     libtomcrypt-dev \
     libtommath-dev \
     make \
+    unzip \
+    xz-utils \
     zlib1g-dev
 mkdir -p /home/firebird
 cd /home/firebird
-curl -L -o firebird-source.tar.bz2 -L \
+curl -L -o firebird-source.tar.xz -L \
     "${FBURL}"
-tar --strip=1 -xf firebird-source.tar.bz2
+tar --strip=1 -xf firebird-source.tar.xz
 ./configure \
     --prefix=${PREFIX}/ --with-fbbin=${PREFIX}/bin/ --with-fbsbin=${PREFIX}/bin/ --with-fblib=${PREFIX}/lib/ \
     --with-fbinclude=${PREFIX}/include/ --with-fbdoc=${PREFIX}/doc/ --with-fbudf=${PREFIX}/UDF/ \
@@ -40,7 +41,6 @@ cd /
 rm -rf /home/firebird
 find ${PREFIX} -name .debug -prune -exec rm -rf {} \;
 apt-get purge -qy --auto-remove \
-    bzip2 \
     ca-certificates \
     curl \
     g++ \
@@ -49,6 +49,8 @@ apt-get purge -qy --auto-remove \
     libncurses5-dev \
     libtommath-dev \
     make \
+    unzip \
+    xz-utils \
     zlib1g-dev
 rm -rf /var/lib/apt/lists/*
 
