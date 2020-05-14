@@ -173,4 +173,9 @@ while IFS=';' read -ra FBALIAS; do
     done
 done <<< "$FIREBIRD_ALIASES"
 
-$@
+trap 'kill -TERM "$FBPID"' SIGTERM
+
+$@ &
+
+FBPID=$!
+wait "$FBPID"
