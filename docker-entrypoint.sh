@@ -178,4 +178,4 @@ trap 'kill -TERM "$FBPID"' SIGTERM
 $@ &
 
 FBPID=$!
-wait "$FBPID"
+tail -qF /proc/${FBPID}/fd/1 /proc/${FBPID}/fd/2
