@@ -6,15 +6,17 @@
 
 [`2.5-ss`, `2.5.9-ss` (*2.5-ss/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/2.5-ss/Dockerfile)
 
-[`3.0`, `3.0.6`, `latest` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/Dockerfile)
+[`3.0`, `3.0.7`, `latest` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/Dockerfile)
 
 [`4.0`, `beta` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/beta/Dockerfile)
 
 ## What's New
-### 3.0.6 Sub Release
-Firebird Project is happy to announce general availability of Firebird [3.0.6](https://firebirdsql.org/en/firebird-3-0-6/) — the 6th point release in the Firebird 3.0 series.
+### 3.0.7 Sub Release
+Firebird Project is happy to announce general availability of Firebird [3.0.7](https://firebirdsql.org/en/firebird-3-0-7/) — the latest point release in the Firebird 3.0 series.
 
-This sub-release offers many bug fixes and also adds a few improvements, please refer to the [Release Notes](https://firebirdsql.org/file/documentation/release_notes/html/en/3_0/rlsnotes30.html) for the full list of changes. Binary kits for Windows, Linux and Android platforms are immediately available for [download](https://firebirdsql.org/en/firebird-3-0-6/), Mac OS packages will follow shortly.
+This sub-release offers many bug fixes and also adds a few improvements, please refer to the [Release Notes](https://firebirdsql.org/file/documentation/release_notes/html/en/3_0/rlsnotes30.html) for the full list of changes. Binary kits for Windows, Linux, Mac OS and Android platforms are immediately available for [download](https://firebirdsql.org/en/firebird-3-0-7/).
+
+All users of Firebird v3.0.6 are strongly encouraged to upgrade to v3.0.7 as soon as possible due to several serious bugs found in v3.0.6 and fixed in this point release. 
 
 
 ### 2.5.9 Sub Release
