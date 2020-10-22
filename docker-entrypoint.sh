@@ -173,9 +173,13 @@ while IFS=';' read -ra FBALIAS; do
     done
 done <<< "$FIREBIRD_ALIASES"
 
-trap 'kill -TERM "$FBPID"' SIGTERM
+if [[ "${@}" == "firebird" ]]; then
+  trap 'kill -TERM "$FBPID"' SIGTERM
 
-$@ &
+  /usr/local/firebird/bin/fbguard &
 
-FBPID=$!
-tail -qF /proc/${FBPID}/fd/1 /proc/${FBPID}/fd/2
+  FBPID=$!
+  wait "$FBPID"
+else
+  exec $@
+fi

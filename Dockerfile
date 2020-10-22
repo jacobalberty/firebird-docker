@@ -31,4 +31,4 @@ HEALTHCHECK CMD ${PREFIX}/docker-healthcheck.sh || exit 1
 
 ENTRYPOINT ["/usr/local/firebird/docker-entrypoint.sh"]
 
-CMD ["/usr/local/firebird/bin/fbguard"]
+CMD ["firebird"]
