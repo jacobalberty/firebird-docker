@@ -22,6 +22,12 @@ apt-get install -qy --no-install-recommends \
     unzip \
     xz-utils \
     zlib1g-dev
+if [ -d "/usr/local/docker/pre_build/$(dpkg --print-architecture)" ]; then
+    find "/usr/local/docker/pre_build/$(dpkg --print-architecture)" -type f -exec '{}' \;
+fi
+if [ -d "/usr/local/docker/pre_build/all" ]; then
+    find "/usr/local/docker/pre_build/all" -type f -exec '{}' \;
+fi
 mkdir -p /home/firebird
 cd /home/firebird
 curl -L -o firebird-source.tar.xz -L \
@@ -39,6 +45,12 @@ make -j${CPUC}
 make silent_install
 cd /
 rm -rf /home/firebird
+if [ -d "/usr/local/docker/post_build/$(dpkg --print-architecture)" ]; then
+    find "/usr/local/docker/post_build/$(dpkg --print-architecture)" -type f -exec '{}' \;
+fi
+if [ -d "/usr/local/docker/post_build/all" ]; then
+    find "/usr/local/docker/post_build/all" -type f -exec '{}' \;
+fi
 find ${PREFIX} -name .debug -prune -exec rm -rf {} \;
 apt-get purge -qy --auto-remove \
     ca-certificates \
