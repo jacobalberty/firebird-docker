@@ -68,120 +68,123 @@ confSet() {
     sed -i "s~^\(${1}\s*=\s*\).*$~\1${2}~" "${confFile}"
 }
 
-# Create any missing folders
-mkdir -p "${VOLUME}/system"
-mkdir -p "${VOLUME}/log"
-mkdir -p "${VOLUME}/data"
-if [[ ! -e "${VOLUME}/etc/" ]]; then
-    cp -R "${PREFIX}/skel/etc" "${VOLUME}/"
-    file_env 'EnableLegacyClientAuth'
-    file_env 'EnableWireCrypt'
-    if [[ ${EnableLegacyClientAuth} == 'true' ]]; then
-        confSet AuthServer "Legacy_Auth, Srp, Win_Sspi"
-        confSet AuthClient "Legacy_Auth, Srp, Win_Sspi"
-        confSet UserManager "Legacy_UserManager, Srp"
-        confSet WireCrypt "enabled"
-    fi
-    if [[ ${EnableWireCrypt} == 'true' ]]; then
-        confSet WireCrypt "enabled"
-    fi
-fi
+firebirdSetup() {
+  # Create any missing folders
+  mkdir -p "${VOLUME}/system"
+  mkdir -p "${VOLUME}/log"
+  mkdir -p "${VOLUME}/data"
+  if [[ ! -e "${VOLUME}/etc/" ]]; then
+      cp -R "${PREFIX}/skel/etc" "${VOLUME}/"
+      file_env 'EnableLegacyClientAuth'
+      file_env 'EnableWireCrypt'
+      if [[ ${EnableLegacyClientAuth} == 'true' ]]; then
+          confSet AuthServer "Legacy_Auth, Srp, Win_Sspi"
+          confSet AuthClient "Legacy_Auth, Srp, Win_Sspi"
+          confSet UserManager "Legacy_UserManager, Srp"
+          confSet WireCrypt "enabled"
+      fi
+      if [[ ${EnableWireCrypt} == 'true' ]]; then
+          confSet WireCrypt "enabled"
+      fi
+  fi
 
-if [ ! -f "${VOLUME}/system/security3.fdb" ]; then
-    cp "${PREFIX}/skel/security3.fdb" "${VOLUME}/system/security3.fdb"
-    file_env 'ISC_PASSWORD'
-    if [ -z ${ISC_PASSWORD} ]; then
-       ISC_PASSWORD=$(createNewPassword)
-       echo "setting 'SYSDBA' password to '${ISC_PASSWORD}'"
-    fi
+  if [ ! -f "${VOLUME}/system/security3.fdb" ]; then
+      cp "${PREFIX}/skel/security3.fdb" "${VOLUME}/system/security3.fdb"
+      file_env 'ISC_PASSWORD'
+      if [ -z ${ISC_PASSWORD} ]; then
+         ISC_PASSWORD=$(createNewPassword)
+         echo "setting 'SYSDBA' password to '${ISC_PASSWORD}'"
+      fi
 
-    # initialize SYSDBA user for Srp authentication
-    ${PREFIX}/bin/isql -user sysdba security.db <<EOL
-create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Srp;
-commit;
-quit;
+      # initialize SYSDBA user for Srp authentication
+      ${PREFIX}/bin/isql -user sysdba security.db <<EOL
+  create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Srp;
+  commit;
+  quit;
 EOL
 
-    if [[ ${EnableLegacyClientAuth} == 'true' ]]; then
-        # also initialize/reset SYSDBA user for legacy authentication
-        ${PREFIX}/bin/isql -user sysdba security.db <<EOL
-create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Legacy_UserManager;
-commit;
-quit;
+      if [[ ${EnableLegacyClientAuth} == 'true' ]]; then
+          # also initialize/reset SYSDBA user for legacy authentication
+          ${PREFIX}/bin/isql -user sysdba security.db <<EOL
+  create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Legacy_UserManager;
+  commit;
+  quit;
 EOL
-    fi
-# create or alter user SYSDBA password '${ISC_PASSWORD}';
+      fi
+  # create or alter user SYSDBA password '${ISC_PASSWORD}';
 
-    cat > "${VOLUME}/etc/SYSDBA.password" <<EOL
-# Firebird generated password for user SYSDBA is:
-#
-ISC_USER=sysdba
-ISC_PASSWORD=${ISC_PASSWORD}
-#
-# Also set legacy variable though it can't be exported directly
-#
-ISC_PASSWD=${ISC_PASSWORD}
-#
-# generated at time $(date)
-#
-# Your password can be changed to a more suitable one using
-# SQL operator ALTER USER.
-#
+      cat > "${VOLUME}/etc/SYSDBA.password" <<EOL
+  # Firebird generated password for user SYSDBA is:
+  #
+  ISC_USER=sysdba
+  ISC_PASSWORD=${ISC_PASSWORD}
+  #
+  # Also set legacy variable though it can't be exported directly
+  #
+  ISC_PASSWD=${ISC_PASSWORD}
+  #
+  # generated at time $(date)
+  #
+  # Your password can be changed to a more suitable one using
+  # SQL operator ALTER USER.
+  #
 
 EOL
 
-fi
+  fi
 
-if [ -f "${VOLUME}/etc/SYSDBA.password" ]; then
-    source "${VOLUME}/etc/SYSDBA.password"
-fi;
+  if [ -f "${VOLUME}/etc/SYSDBA.password" ]; then
+      source "${VOLUME}/etc/SYSDBA.password"
+  fi;
 
-file_env 'FIREBIRD_USER'
-file_env 'FIREBIRD_PASSWORD'
-file_env 'FIREBIRD_DATABASE'
+  file_env 'FIREBIRD_USER'
+  file_env 'FIREBIRD_PASSWORD'
+  file_env 'FIREBIRD_DATABASE'
 
-build isql "set sql dialect 3;"
-if [ ! -z "${FIREBIRD_DATABASE}" -a ! -f "${DBPATH}/${FIREBIRD_DATABASE}" ]; then
-    if [ "${FIREBIRD_USER}" ];  then
-        build isql "CONNECT employee USER '${ISC_USER}' PASSWORD '${ISC_PASSWORD}';"
-        if [ -z "${FIREBIRD_PASSWORD}" ]; then
-            FIREBIRD_PASSWORD=$(createNewPassword)
-            echo "setting '${FIREBIRD_USER}' password to '${FIREBIRD_PASSWORD}'"
-        fi
-        build isql "CREATE USER ${FIREBIRD_USER} PASSWORD '${FIREBIRD_PASSWORD}';"
-        build isql "COMMIT;"
-    fi
+  build isql "set sql dialect 3;"
+  if [ ! -z "${FIREBIRD_DATABASE}" -a ! -f "${DBPATH}/${FIREBIRD_DATABASE}" ]; then
+      if [ "${FIREBIRD_USER}" ];  then
+          build isql "CONNECT employee USER '${ISC_USER}' PASSWORD '${ISC_PASSWORD}';"
+          if [ -z "${FIREBIRD_PASSWORD}" ]; then
+              FIREBIRD_PASSWORD=$(createNewPassword)
+              echo "setting '${FIREBIRD_USER}' password to '${FIREBIRD_PASSWORD}'"
+          fi
+          build isql "CREATE USER ${FIREBIRD_USER} PASSWORD '${FIREBIRD_PASSWORD}';"
+          build isql "COMMIT;"
+      fi
 
-    stmt="CREATE DATABASE '${DBPATH}/${FIREBIRD_DATABASE}'"
-    if [ "${FIREBIRD_USER}" ];  then
-        stmt+=" USER '${FIREBIRD_USER}' PASSWORD '${FIREBIRD_PASSWORD}'"
-    else
-        stmt+=" USER '${ISC_USER}' PASSWORD '${ISC_PASSWORD}'"
-    fi
-    stmt+=" DEFAULT CHARACTER SET UTF8;";
-    build isql "${stmt}";
-    build isql "COMMIT;"
-    if [ "${isql}" ]; then
-        build isql "QUIT;"
-        run isql
-    fi
-fi
+      stmt="CREATE DATABASE '${DBPATH}/${FIREBIRD_DATABASE}'"
+      if [ "${FIREBIRD_USER}" ];  then
+          stmt+=" USER '${FIREBIRD_USER}' PASSWORD '${FIREBIRD_PASSWORD}'"
+      else
+          stmt+=" USER '${ISC_USER}' PASSWORD '${ISC_PASSWORD}'"
+      fi
+      stmt+=" DEFAULT CHARACTER SET UTF8;";
+      build isql "${stmt}";
+      build isql "COMMIT;"
+      if [ "${isql}" ]; then
+          build isql "QUIT;"
+          run isql
+      fi
+  fi
 
-while IFS=';' read -ra FBALIAS; do
-    for i in "${FBALIAS[@]}"; do
-	if [ -z "${i##*=*}" ]; then
-            ${PREFIX}/bin/registerDatabase.sh "${i%=*}" "${i#*=}"
-        fi
-    done
-done <<< "$FIREBIRD_ALIASES"
+  while IFS=';' read -ra FBALIAS; do
+      for i in "${FBALIAS[@]}"; do
+  	if [ -z "${i##*=*}" ]; then
+              ${PREFIX}/bin/registerDatabase.sh "${i%=*}" "${i#*=}"
+          fi
+      done
+  done <<< "$FIREBIRD_ALIASES"
+}
 
-if [[ "${@}" == "firebird" ]]; then
+if [ "$1" == "firebird" ]; then
+  firebirdSetup
   trap 'kill -TERM "$FBPID"' SIGTERM
 
   /usr/local/firebird/bin/fbguard &
 
   FBPID=$!
   wait "$FBPID"
-else
-  exec $@
 fi
+
+exec $@
