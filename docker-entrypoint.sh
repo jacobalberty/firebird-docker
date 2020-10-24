@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+PATH="${PATH}:${PREFIX}/bin"
+
 build() {
     local var="$1"
     local stmt="$2"
