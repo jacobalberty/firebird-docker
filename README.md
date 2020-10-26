@@ -2,13 +2,13 @@
 
 ## Supported tags and respective `Dockerfile` links
 
-[`2.5-sc`, `2.5.9-sc` (*2.5-sc/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/2.5-sc/Dockerfile)
+[`2.5-sc`, `v2.5.9-sc` (*2.5-sc/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/2.5-sc/Dockerfile)
 
-[`2.5-ss`, `2.5.9-ss` (*2.5-ss/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/2.5-ss/Dockerfile)
+[`2.5-ss`, `v2.5.9-ss` (*2.5-ss/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/2.5-ss/Dockerfile)
 
-[`3.0`, `3.0.7`, `latest` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/Dockerfile)
+[`v3.0`, `v3.0.7`, `latest` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/Dockerfile)
 
-[`4.0`, `beta` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/beta/Dockerfile)
+[`v4.0.0b2`, `beta` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/beta/Dockerfile)
 
 ## What's New
 ### 3.0.7 Sub Release
