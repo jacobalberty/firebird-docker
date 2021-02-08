@@ -8,9 +8,16 @@
 
 [`v3.0`, `v3.0.7`, `latest` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/Dockerfile)
 
-[`v4.0.0b2`, `beta` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/beta/Dockerfile)
+[`v4.0.0rc1`, `rc` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/rc/Dockerfile)
 
 ## What's New
+### Firebird 4.0 Release Candidate 1 is available for testing
+Firebird Project announces the first Release Candidate of Firebird 4.0, the next major version of the Firebird relational database, which is now [available](https://firebirdsql.org/en/firebird-4-0-0-rc1/) for testing on Windows and Linux platforms.
+
+This Release Candidate demonstrates the complete set of features and improvements developed for the new release. Release Candidates are generally considered stable enough and may be recommended for testing in "almost-production" environments. Our users are appreciated giving it a try and providing feedback to the [development mailing list](https://firebirdsql.org/en/devel-mailing-lists/). Apparent bugs can be reported directly to the [bugtracker](http://tracker.firebirdsql.org/).
+
+Please read the [Release Notes](https://github.com/FirebirdSQL/firebird/releases/download/T4_0_0_RC1/Firebird-4.0.0-RC1-ReleaseNotes.pdf) carefully before installing and testing this Release Candidate.
+
 ### 3.0.7 Sub Release
 Firebird Project is happy to announce general availability of Firebird [3.0.7](https://firebirdsql.org/en/firebird-3-0-7/) — the latest point release in the Firebird 3.0 series.
 
