@@ -9,6 +9,7 @@ on:
 
 jobs:
   main:
+    if: github.repository == 'jacobalberty/firebird-docker'
     runs-on: ubuntu-latest
     steps:
       -
