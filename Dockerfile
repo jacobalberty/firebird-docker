@@ -1,11 +1,11 @@
-FROM debian:jessie
+FROM debian:buster
 
 LABEL maintainer="jacob.alberty@foundigital.com"
 
 ENV PREFIX=/usr/local/firebird
 ENV VOLUME=/firebird
 ENV DEBIAN_FRONTEND noninteractive
-ENV FBURL=https://github.com/FirebirdSQL/firebird/releases/download/R3_0_7/Firebird-3.0.7.33374-0.tar.bz2
+ENV FBURL=https://github.com/FirebirdSQL/firebird/releases/download/T4_0_0_RC1/Firebird-4.0.0.2353-ReleaseCandidate1.tar.xz
 ENV DBPATH=/firebird/data
 
 COPY pre_build /home/pre_build

@@ -88,8 +88,8 @@ firebirdSetup() {
       fi
   fi
 
-  if [ ! -f "${VOLUME}/system/security3.fdb" ]; then
-      cp "${PREFIX}/skel/security3.fdb" "${VOLUME}/system/security3.fdb"
+  if [ ! -f "${VOLUME}/system/security4.fdb" ]; then
+      cp "${PREFIX}/skel/security4.fdb" "${VOLUME}/system/security4.fdb"
       file_env 'ISC_PASSWORD'
       if [ -z ${ISC_PASSWORD} ]; then
          ISC_PASSWORD=$(createNewPassword)
@@ -98,36 +98,36 @@ firebirdSetup() {
 
       # initialize SYSDBA user for Srp authentication
       ${PREFIX}/bin/isql -user sysdba security.db <<EOL
-  create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Srp;
-  commit;
-  quit;
+create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Srp;
+commit;
+quit;
 EOL
 
       if [[ ${EnableLegacyClientAuth} == 'true' ]]; then
           # also initialize/reset SYSDBA user for legacy authentication
           ${PREFIX}/bin/isql -user sysdba security.db <<EOL
-  create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Legacy_UserManager;
-  commit;
-  quit;
+create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Legacy_UserManager;
+commit;
+quit;
 EOL
       fi
   # create or alter user SYSDBA password '${ISC_PASSWORD}';
 
       cat > "${VOLUME}/etc/SYSDBA.password" <<EOL
-  # Firebird generated password for user SYSDBA is:
-  #
-  ISC_USER=sysdba
-  ISC_PASSWORD=${ISC_PASSWORD}
-  #
-  # Also set legacy variable though it can't be exported directly
-  #
-  ISC_PASSWD=${ISC_PASSWORD}
-  #
-  # generated at time $(date)
-  #
-  # Your password can be changed to a more suitable one using
-  # SQL operator ALTER USER.
-  #
+# Firebird generated password for user SYSDBA is:
+#
+ISC_USER=sysdba
+ISC_PASSWORD=${ISC_PASSWORD}
+#
+# Also set legacy variable though it can't be exported directly
+#
+ISC_PASSWD=${ISC_PASSWORD}
+#
+# generated at time $(date)
+#
+# Your password can be changed to a more suitable one using
+# SQL operator ALTER USER.
+#
 
 EOL
 
@@ -177,7 +177,7 @@ EOL
   done <<< "$FIREBIRD_ALIASES"
 }
 
-if [ "$1" == "firebird" ]; then
+if [[ "$1" == "firebird" ]]; then
   firebirdSetup
   trap 'kill -TERM "$FBPID"' SIGTERM
 
@@ -186,5 +186,6 @@ if [ "$1" == "firebird" ]; then
   FBPID=$!
   wait "$FBPID"
 fi
+
 
 exec $@
