@@ -11,7 +11,8 @@
 [`v4.0`, `v4.0.0`, `latest` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/Dockerfile)
 
 ## What's New
-###Firebird Project is happy to announce general availability of [Firebird 4.0](https://firebirdsql.org/en/firebird-4-0/) — the latest major release of the Firebird relational database.
+
+### Firebird Project is happy to announce general availability of [Firebird 4.0](https://firebirdsql.org/en/firebird-4-0/) — the latest major release of the Firebird relational database.
 
 Firebird 4.0 introduces new data types and many improvements without radical changes in architecture or operation, the most important are:
 
@@ -29,13 +30,6 @@ Firebird 4.0 introduces new data types and many improvements without radical cha
 Please refer to the [Release Notes](https://firebirdsql.org/file/documentation/release_notes/html/en/4_0/rlsnotes40.html) for the full list of changes. The complete [Language Reference](https://firebirdsql.org/file/documentation/html/en/refdocs/fblangref40/firebird-40-language-reference.html) is also available.
 
 Binary kits for Windows, Linux and Android platforms (both 32-bit and 64-bit) are immediately available for [download](https://firebirdsql.org/en/firebird-4-0/).
-
-### Firebird 4.0 Release Candidate 1 is available for testing
-Firebird Project announces the first Release Candidate of Firebird 4.0, the next major version of the Firebird relational database, which is now [available](https://firebirdsql.org/en/firebird-4-0-0-rc1/) for testing on Windows and Linux platforms.
-
-This Release Candidate demonstrates the complete set of features and improvements developed for the new release. Release Candidates are generally considered stable enough and may be recommended for testing in "almost-production" environments. Our users are appreciated giving it a try and providing feedback to the [development mailing list](https://firebirdsql.org/en/devel-mailing-lists/). Apparent bugs can be reported directly to the [bugtracker](http://tracker.firebirdsql.org/).
-
-Please read the [Release Notes](https://github.com/FirebirdSQL/firebird/releases/download/T4_0_0_RC1/Firebird-4.0.0-RC1-ReleaseNotes.pdf) carefully before installing and testing this Release Candidate.
 
 ### 3.0.7 Sub Release
 Firebird Project is happy to announce general availability of Firebird [3.0.7](https://firebirdsql.org/en/firebird-3-0-7/) — the latest point release in the Firebird 3.0 series.
