@@ -22,6 +22,9 @@ apt-get install -qy --no-install-recommends \
     unzip \
     xz-utils \
     zlib1g-dev
+if [ "$(dpkg --print-architecture)" = "armhf" ]; then
+    c_rehash
+fi
 if [ -d "/home/pre_build/$(dpkg --print-architecture)" ]; then
     find "/home/pre_build/$(dpkg --print-architecture)" -type f -exec '{}' \;
 fi
