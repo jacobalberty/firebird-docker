@@ -22,17 +22,23 @@ apt-get install -qy --no-install-recommends \
     unzip \
     xz-utils \
     zlib1g-dev
-if [ -d "/home/pre_build/$(dpkg --print-architecture)" ]; then
-    find "/home/pre_build/$(dpkg --print-architecture)" -type f -exec '{}' \;
+if [ -d "/home/fixes/pre_fetch/$(dpkg --print-architecture)" ]; then
+    find "/home/fixes/pre_fetch/$(dpkg --print-architecture)" -type f -exec '{}' \;
 fi
-if [ -d "/home/pre_build/all" ]; then
-    find "/home/pre_build/all" -type f -exec '{}' \;
+if [ -d "/home/fixes/pre_fetch/all" ]; then
+    find "/home/fixes/pre_fetch/all" -type f -exec '{}' \;
 fi
 mkdir -p /home/firebird
 cd /home/firebird
 curl -L -o firebird-source.tar.xz -L \
     "${FBURL}"
 tar --strip=1 -xf firebird-source.tar.xz
+if [ -d "/home/fixes/pre_build/$(dpkg --print-architecture)" ]; then
+    find "/home/fixes/pre_build/$(dpkg --print-architecture)" -type f -exec '{}' \;
+fi
+if [ -d "/home/fixes/pre_build/all" ]; then
+    find "/home/fixes/pre_build/all" -type f -exec '{}' \;
+fi
 ./configure \
     --prefix=${PREFIX}/ --with-fbbin=${PREFIX}/bin/ --with-fbsbin=${PREFIX}/bin/ --with-fblib=${PREFIX}/lib/ \
     --with-fbinclude=${PREFIX}/include/ --with-fbdoc=${PREFIX}/doc/ --with-fbudf=${PREFIX}/UDF/ \
@@ -45,11 +51,11 @@ make -j${CPUC}
 make silent_install
 cd /
 rm -rf /home/firebird
-if [ -d "/home/post_build/$(dpkg --print-architecture)" ]; then
-    find "/home/post_build/$(dpkg --print-architecture)" -type f -exec '{}' \;
+if [ -d "/home/fixes/post_build/$(dpkg --print-architecture)" ]; then
+    find "/home/fixes/post_build/$(dpkg --print-architecture)" -type f -exec '{}' \;
 fi
-if [ -d "/home/post_build/all" ]; then
-    find "/home/post_build/all" -type f -exec '{}' \;
+if [ -d "/home/fixes/post_build/all" ]; then
+    find "/home/fixes/post_build/all" -type f -exec '{}' \;
 fi
 find ${PREFIX} -name .debug -prune -exec rm -rf {} \;
 apt-get purge -qy --auto-remove \
