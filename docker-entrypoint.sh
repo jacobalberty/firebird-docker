@@ -77,6 +77,7 @@ firebirdSetup() {
       cp -R "${PREFIX}/skel/etc" "${VOLUME}/"
       file_env 'EnableLegacyClientAuth'
       file_env 'EnableWireCrypt'
+      file_env 'DataTypeCompatibility'
       if [[ ${EnableLegacyClientAuth} == 'true' ]]; then
           confSet AuthServer "Legacy_Auth, Srp, Win_Sspi"
           confSet AuthClient "Legacy_Auth, Srp, Win_Sspi"
@@ -85,6 +86,9 @@ firebirdSetup() {
       fi
       if [[ ${EnableWireCrypt} == 'true' ]]; then
           confSet WireCrypt "enabled"
+      fi
+      if [[ ${DataTypeCompatibility} != '' ]]; then
+          confSet DataTypeCompatibility "${DataTypeCompatibility}"
       fi
   fi
 

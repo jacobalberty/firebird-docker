@@ -107,6 +107,24 @@ WireCrypt = enabled
 ```
 This will allow legacy clients to connect and authenticate.
 
+### `DataTypeCompatibility`
+
+If this is set then when launching without an existing /firebird/etc folder this will cause the newly created firebird.conf to set `DataTypeCompatibility` with the defined value supported by Firebird.
+```
+# ----------------------------
+# Engine currently provides a number of new datatypes unknown to legacy clients.
+# In order to simplify use of old applications set this parameter to minor FB
+# version datatype compatibility with which you need. Currently two values are
+# supported: 3.0 & 2.5.
+# More precise (including per-session) tuning is possible via SQL and DPB.
+#
+# Per-database configurable.
+#
+#    Type: string
+#
+#DataTypeCompatibility =
+```
+
 ### `EnableWireCrypt`
 
 If this is set to true then when launching without an existing /firebird/etc folder this will cause the newly created firebird.conf to have
