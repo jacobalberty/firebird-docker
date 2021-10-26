@@ -4,8 +4,8 @@ CPUC=$(awk '/^processor/{n+=1}END{print n}' /proc/cpuinfo)
 
 apt-get update
 apt-get install -qy --no-install-recommends \
-    libicu52 \
-    libtommath0
+    libicu67 \
+    libtommath1
 apt-get install -qy --no-install-recommends \
     bzip2 \
     ca-certificates \
