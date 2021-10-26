@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:bullseye
 LABEL maintainer="jacob.alberty@foundigital.com"
 
 ENV PREFIX=/usr/local/firebird
@@ -14,7 +14,7 @@ RUN apt-get update && \
         curl \
         g++ \
         gcc \
-        libicu52 \
+        libicu67 \
         libicu-dev \
         libncurses5-dev \
         make && \
