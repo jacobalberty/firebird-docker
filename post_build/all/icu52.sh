@@ -3,7 +3,7 @@ ICU_URL="https://github.com/unicode-org/icu/releases/download/release-52-2/icu4c
 
 CPUC=$(awk '/^processor/{n+=1}END{print n}' /proc/cpuinfo)
 
-apt-get purge -qy --auto-remove libicu63
+apt-get purge -qy --auto-remove libicu67
 
 mkdir -p /home/icu52
 cd /home/icu52
