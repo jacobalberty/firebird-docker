@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:bullseye
 
 LABEL maintainer="jacob.alberty@foundigital.com"
 
