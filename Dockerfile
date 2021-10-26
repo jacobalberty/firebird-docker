@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bullseye-slim
 
 LABEL maintainer="jacob.alberty@foundigital.com"
 
