@@ -1,6 +1,9 @@
-FROM debian:bullseye-slim
+FROM --platform=$BUILDPLATFORM debian:bullseye-slim as build
 
 LABEL maintainer="jacob.alberty@foundigital.com"
+
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
 
 ENV PREFIX=/usr/local/firebird
 ENV VOLUME=/firebird
@@ -18,9 +21,25 @@ RUN chmod +x ./build.sh && \
     ./build.sh && \
     rm -f ./build.sh
 
+FROM --platform=$TARGETPLATFORM debian:bullseye-slim
+
+ENV PREFIX=/usr/local/firebird
+ENV VOLUME=/firebird
+ENV DEBIAN_FRONTEND noninteractive
+ENV DBPATH=/firebird/data
+
 VOLUME ["/firebird"]
 
 EXPOSE 3050/tcp
+
+COPY --from=build /home/firebird/firebird.tar.gz /home/firebird/firebird.tar.gz
+
+COPY install.sh ./install.sh
+
+RUN chmod +x ./install.sh && \
+    sync && \
+    ./install.sh && \
+    rm -f ./install.sh
 
 COPY docker-entrypoint.sh ${PREFIX}/docker-entrypoint.sh
 RUN chmod +x ${PREFIX}/docker-entrypoint.sh
