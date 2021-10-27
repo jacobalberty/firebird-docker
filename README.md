@@ -12,6 +12,14 @@
 
 ## What's New
 
+### Base image is now on bullseye-slim for 3.0 and 4.0 branches
+
+This required a script to replace the libicu supplied by bullseye with the preferred one for the relevant firebird versions.
+If for some reason you do get a [Collation unicode for character set utf8 is not installed](http://www.firebirdfaq.org/faq358/) error you can use
+`gfix -icu <database>` to correct the issue as of firebird 3.0.
+
+I do plan to update the 2.5 branches to bullseye as well, there's just a bit more work involved.
+
 ### Firebird Project is happy to announce general availability of [Firebird 4.0](https://firebirdsql.org/en/firebird-4-0/) — the latest major release of the Firebird relational database.
 
 Firebird 4.0 introduces new data types and many improvements without radical changes in architecture or operation, the most important are:
