@@ -6,6 +6,7 @@ ENV VOLUME=/firebird
 ENV DEBIAN_FRONTEND noninteractive
 ENV FBURL=https://github.com/FirebirdSQL/firebird/releases/download/R2_5_9/Firebird-2.5.9.27139-0.tar.bz2
 ENV DBPATH=/firebird/data
+ENV ICU_URL=https://github.com/unicode-org/icu/releases/download/release-52-2/icu4c-52_2-src.tgz
 
 RUN apt-get update && \
     apt-get install -qy --no-install-recommends \
@@ -14,10 +15,18 @@ RUN apt-get update && \
         curl \
         g++ \
         gcc \
-        libicu67 \
-        libicu-dev \
         libncurses5-dev \
         make && \
+        mkdir -p /home/icu && \
+        cd /home/icu && \
+        curl -L -o icu4c.tar.gz -L "${ICU_URL}" && \
+        tar --strip=1 -xf icu4c.tar.gz && \
+        cd source && \
+        ./configure --prefix=/usr && \
+        make -j$(awk '/^processor/{n+=1}END{print n}' /proc/cpuinfo) && \
+        make install && \
+        cd / && \
+        rm -rf /home/icu && \
     mkdir -p /home/firebird && \
     cd /home/firebird && \
     curl -L -o firebird-source.tar.bz2 -L \
@@ -43,8 +52,7 @@ RUN apt-get update && \
         curl \
         gcc \
         g++ \
-        make \
-        libicu-dev && \
+        make && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir -p "${PREFIX}/skel" && \
     mv ${VOLUME}/system/security2.fdb ${PREFIX}/skel/security2.fdb && \
