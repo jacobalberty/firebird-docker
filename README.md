@@ -12,13 +12,16 @@
 
 ## What's New
 
-### Base image is now on bullseye-slim for 3.0 and 4.0 branches
+### Base image is now on bullseye for 2.5-ss, 2.5-sc, 3.0 and 4.0 branches
 
 This required a script to replace the libicu supplied by bullseye with the preferred one for the relevant firebird versions.
 If for some reason you do get a [Collation unicode for character set utf8 is not installed](http://www.firebirdfaq.org/faq358/) error you can use
 `gfix -icu <database>` to correct the issue as of firebird 3.0.
 
-I do plan to update the 2.5 branches to bullseye as well, there's just a bit more work involved.
+Both 2.5 branches are now included as well. Unfortunately the `gfix -icu <database>` option is not available for 2.5
+so instead I have opted to add tags for `v2.5.9-sc-jessie` and `v2.5.9-ss-jessie`. If you find your setup works with the jessie tags but not the newer
+`v2.5.9-sc` or `v2.5.9-ss` tags please switch back to the jessie tags and open an issue to let me know. This will probably be the last major update for v2.5 as 
+version 2.5 has been [discontinued for 2 years now](https://firebirdsql.org/en/discontinued-versions/).
 
 ### Firebird Project is happy to announce general availability of [Firebird 4.0](https://firebirdsql.org/en/firebird-4-0/) — the latest major release of the Firebird relational database.
 
