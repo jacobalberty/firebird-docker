@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bullseye-slim
 LABEL maintainer="jacob.alberty@foundigital.com"
 
 ENV PREFIX=/usr/local/firebird
