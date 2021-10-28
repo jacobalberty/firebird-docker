@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -e
 declare -A DEBARCHS=( ["linux/arm64"]="arm64" ["linux/arm/v7"]="armhf" ["linux/amd64"]="amd64" )
-declare -A CONFARCHS=( ["linux/arm64"]="aarch64-linux-gnu" ["linux/arm/v7"]="arm-linux-gnu" )
+declare -A CONFARCHS=( ["linux/arm64"]="aarch64-unknown-linux-gnu" ["linux/arm/v7"]="arm-linux-gnueabihf" ["linux/amd64"]="x86_64-linux-gnu" )
+declare -A PREFARCHS=( ["linux/arm64"]="aarch64-linux-gnu" ["linux/arm/v7"]="arm-linux-gnueabihf" ["linux/amd64"]="x86_64-linux-gnu" )
 DEBARCH="${DEBARCHS[${TARGETPLATFORM}]}"
 
 CPUC=$(awk '/^processor/{n+=1}END{print n}' /proc/cpuinfo)
@@ -54,6 +55,8 @@ if [ "${TARGETPLATFORM}" != "${BUILDPLATFORM}" ]; then
         libtomcrypt-dev:"$DEBARCH" \
         libtommath-dev:"$DEBARCH" \
         zlib1g-dev:"$DEBARCH"
+    export CXX="${PREFARCHS[${TARGETPLATFORM}]}-g++"
+    export CC="${PREFARCHS[${TARGETPLATFORM}]}-gcc"
     ./configure \
         --prefix=${PREFIX}/ --with-fbbin=${PREFIX}/bin/ --with-fbsbin=${PREFIX}/bin/ --with-fblib=${PREFIX}/lib/ \
         --with-fbinclude=${PREFIX}/include/ --with-fbdoc=${PREFIX}/doc/ --with-fbudf=${PREFIX}/UDF/ \
@@ -62,7 +65,7 @@ if [ "${TARGETPLATFORM}" != "${BUILDPLATFORM}" ]; then
         --with-fbconf="${VOLUME}/etc/" --with-fbmsg=${PREFIX}/ \
         --with-fblog="${VOLUME}/log/" --with-fbglock=/var/firebird/run/ \
         --with-fbsecure-db="${VOLUME}/system" \
-        --host="${CONFARCHS[${TARGETPLATFORM}]}"
+        --host="${CONFARCHS[${TARGETPLATFORM}]}" --target="${CONFARCHS[${TARGETPLATFORM}]}" --build="${CONFARCHS[${TARGETPLATFORM}]}"
 else
     ./configure \
         --prefix=${PREFIX}/ --with-fbbin=${PREFIX}/bin/ --with-fbsbin=${PREFIX}/bin/ --with-fblib=${PREFIX}/lib/ \
