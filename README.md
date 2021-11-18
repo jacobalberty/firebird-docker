@@ -12,6 +12,13 @@
 
 ## What's New
 
+### Firebird 3.0.8 sub-release is available
+
+Firebird Project is happy to announce general availability of [Firebird 3.0.8](https://firebirdsql.org/en/firebird-3-0-8/) — the latest point release in the Firebird 3.0 series.
+
+This sub-release offers many bug fixes and also adds a few improvements, please refer to the [Release Notes](https://firebirdsql.org/file/documentation/release_notes/html/en/3_0/rlsnotes30.html) for the full list of changes.
+Binary kits for Windows, Linux, Mac OS and Android platforms are immediately available for [download](https://firebirdsql.org/en/firebird-3-0-8/).
+
 ### Base image is now on bullseye for 2.5-ss, 2.5-sc, 3.0 and 4.0 branches
 
 This required a script to replace the libicu supplied by bullseye with the preferred one for the relevant firebird versions.
