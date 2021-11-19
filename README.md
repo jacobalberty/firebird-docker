@@ -6,7 +6,7 @@
 
 [`2.5-ss`, `v2.5.9-ss` (*2.5-ss/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/2.5-ss/Dockerfile)
 
-[`3.0`, `v3.0`, `v3.0.7` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/3.0/Dockerfile)
+[`3.0`, `v3.0`, `v3.0.8` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/3.0/Dockerfile)
 
 [`v4.0`, `v4.0.0`, `latest` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/Dockerfile)
 
