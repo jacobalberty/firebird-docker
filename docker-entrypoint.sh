@@ -73,7 +73,7 @@ firebirdSetup() {
   mkdir -p "${VOLUME}/system"
   mkdir -p "${VOLUME}/log"
   mkdir -p "${VOLUME}/data"
-  if [[ ! -e "${VOLUME}/etc/" ]]; then
+  if [[ ! -e "${VOLUME}/etc/firebird.conf" ]]; then
       cp -R "${PREFIX}/skel/etc" "${VOLUME}/"
       file_env 'EnableLegacyClientAuth'
       file_env 'EnableWireCrypt'
