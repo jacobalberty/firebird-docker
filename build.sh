@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
-CPUC=$(awk '/^processor/{n+=1}END{print n}' /proc/cpuinfo)
+CPUC=$(getconf _NPROCESSORS_ONLN)
 
 apt-get update
 apt-get install -qy --no-install-recommends \
@@ -31,14 +31,14 @@ curl -L -o firebird-source.tar.bz2 -L \
     "${FBURL}"
 tar --strip=1 -xf firebird-source.tar.bz2
 ./configure \
-    --prefix=${PREFIX}/ --with-fbbin=${PREFIX}/bin/ --with-fbsbin=${PREFIX}/bin/ --with-fblib=${PREFIX}/lib/ \
-    --with-fbinclude=${PREFIX}/include/ --with-fbdoc=${PREFIX}/doc/ --with-fbudf=${PREFIX}/UDF/ \
-    --with-fbsample=${PREFIX}/examples/ --with-fbsample-db=${PREFIX}/examples/empbuild/ --with-fbhelp=${PREFIX}/help/ \
-    --with-fbintl=${PREFIX}/intl/ --with-fbmisc=${PREFIX}/misc/ --with-fbplugins=${PREFIX}/ \
-    --with-fbconf="${VOLUME}/etc/" --with-fbmsg=${PREFIX}/ \
+    --prefix="${PREFIX}"/ --with-fbbin="${PREFIX}"/bin/ --with-fbsbin="${PREFIX}"/bin/ --with-fblib="${PREFIX}"/lib/ \
+    --with-fbinclude="${PREFIX}"/include/ --with-fbdoc="${PREFIX}"/doc/ --with-fbudf="${PREFIX}"/UDF/ \
+    --with-fbsample="${PREFIX}"/examples/ --with-fbsample-db="${PREFIX}"/examples/empbuild/ --with-fbhelp="${PREFIX}"/help/ \
+    --with-fbintl="${PREFIX}"/intl/ --with-fbmisc="${PREFIX}"/misc/ --with-fbplugins="${PREFIX}"/ \
+    --with-fbconf="${VOLUME}/etc/" --with-fbmsg="${PREFIX}"/ \
     --with-fblog="${VOLUME}/log/" --with-fbglock=/var/firebird/run/ \
     --with-fbsecure-db="${VOLUME}/system"
-make -j${CPUC}
+make -j"${CPUC}"
 make silent_install
 cd /
 rm -rf /home/firebird
@@ -48,7 +48,7 @@ fi
 if [ -d "/home/post_build/all" ]; then
     find "/home/post_build/all" -type f -exec '{}' \;
 fi
-find ${PREFIX} -name .debug -prune -exec rm -rf {} \;
+find "${PREFIX}" -name .debug -prune -exec rm -rf {} \;
 apt-get purge -qy --auto-remove \
     bzip2 \
     ca-certificates \

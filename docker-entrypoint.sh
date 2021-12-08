@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 
 PATH="${PATH}:${PREFIX}/bin"
@@ -6,26 +6,25 @@ PATH="${PATH}:${PREFIX}/bin"
 build() {
     local var="$1"
     local stmt="$2"
-    export $var+="$(printf "\n${stmt}")"
+    export "$var"+="$(printf "\n%s" "${stmt}")"
 }
 
 run() {
-    echo "${!1}" | ${PREFIX}/bin/isql
+    echo "${!1}" | "${PREFIX}"/bin/isql
 }
 
 createNewPassword() {
     # openssl generates random data.
-        openssl </dev/null >/dev/null 2>/dev/null
-    if [ $? -eq 0 ]
+    if openssl </dev/null >/dev/null 2>/dev/null
     then
         # We generate 40 random chars, strip any '/''s and get the first 20
-        NewPasswd=`openssl rand -base64 40 | tr -d '/' | cut -c1-20`
+        NewPasswd=$(openssl rand -base64 40 | tr -d '/' | cut -c1-20)
     fi
 
         # If openssl is missing...
         if [ -z "$NewPasswd" ]
         then
-                NewPasswd=`dd if=/dev/urandom bs=10 count=1 2>/dev/null | od -x | head -n 1 | tr -d ' ' | cut -c8-27`
+                NewPasswd=$(dd if=/dev/urandom bs=10 count=1 2>/dev/null | od -x | head -n 1 | tr -d ' ' | cut -c8-27)
         fi
 
         # On some systems even this routines may be missing. So if
@@ -91,13 +90,13 @@ firebirdSetup() {
   if [ ! -f "${VOLUME}/system/security3.fdb" ]; then
       cp "${PREFIX}/skel/security3.fdb" "${VOLUME}/system/security3.fdb"
       file_env 'ISC_PASSWORD'
-      if [ -z ${ISC_PASSWORD} ]; then
+      if [ -z "${ISC_PASSWORD}" ]; then
          ISC_PASSWORD=$(createNewPassword)
          echo "setting 'SYSDBA' password to '${ISC_PASSWORD}'"
       fi
 
       # initialize SYSDBA user for Srp authentication
-      ${PREFIX}/bin/isql -user sysdba security.db <<EOL
+      "${PREFIX}"/bin/isql -user sysdba security.db <<EOL
   create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Srp;
   commit;
   quit;
@@ -105,7 +104,7 @@ EOL
 
       if [[ ${EnableLegacyClientAuth} == 'true' ]]; then
           # also initialize/reset SYSDBA user for legacy authentication
-          ${PREFIX}/bin/isql -user sysdba security.db <<EOL
+          "${PREFIX}"/bin/isql -user sysdba security.db <<EOL
   create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Legacy_UserManager;
   commit;
   quit;
@@ -142,7 +141,7 @@ EOL
   file_env 'FIREBIRD_DATABASE'
 
   build isql "set sql dialect 3;"
-  if [ ! -z "${FIREBIRD_DATABASE}" -a ! -f "${DBPATH}/${FIREBIRD_DATABASE}" ]; then
+  if [ -n "${FIREBIRD_DATABASE}" ] && [ ! -f "${DBPATH}/${FIREBIRD_DATABASE}" ]; then
       if [ "${FIREBIRD_USER}" ];  then
           build isql "CONNECT employee USER '${ISC_USER}' PASSWORD '${ISC_PASSWORD}';"
           if [ -z "${FIREBIRD_PASSWORD}" ]; then
@@ -171,7 +170,7 @@ EOL
   while IFS=';' read -ra FBALIAS; do
       for i in "${FBALIAS[@]}"; do
   	if [ -z "${i##*=*}" ]; then
-              ${PREFIX}/bin/registerDatabase.sh "${i%=*}" "${i#*=}"
+              "${PREFIX}"/bin/registerDatabase.sh "${i%=*}" "${i#*=}"
           fi
       done
   done <<< "$FIREBIRD_ALIASES"
@@ -187,4 +186,4 @@ if [ "$1" == "firebird" ]; then
   wait "$FBPID"
 fi
 
-exec $@
+exec "$@"

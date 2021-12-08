@@ -13,9 +13,9 @@ if [[ -z "${HC_USER}" || -z "${HC_PASS}" || -z "${HC_DB}" ]]; then
   nc -z "${HC_IP}" "${HC_PORT}" < /dev/null
   exit $?
 else
-  FB_RESULT=`${ISQL} -user "${HC_USER}" -password "${HC_PASS}" "${HC_IP}/${HC_PORT}:${HC_DB}" << "EOF"
+  FB_RESULT=$(${ISQL} -user "${HC_USER}" -password "${HC_PASS}" "${HC_IP}/${HC_PORT}:${HC_DB}" << "EOF"
   SHOW DATABASE;
 EOF
-  `
+  )
   exit $?
 fi
