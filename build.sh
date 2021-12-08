@@ -5,7 +5,7 @@ declare -A CONFARCHS=( ["linux/arm64"]="aarch64-unknown-linux-gnu" ["linux/arm/v
 declare -A PREFARCHS=( ["linux/arm64"]="aarch64-linux-gnu" ["linux/arm/v7"]="arm-linux-gnueabihf" ["linux/amd64"]="x86_64-linux-gnu" )
 DEBARCH="${DEBARCHS[${TARGETPLATFORM}]}"
 
-CPUC=$(awk '/^processor/{n+=1}END{print n}' /proc/cpuinfo)
+CPUC=$(getconf _NPROCESSORS_ONLN)
 
 apt-get update
 apt-get install -qy --no-install-recommends \
@@ -58,27 +58,27 @@ if [ "${TARGETPLATFORM}" != "${BUILDPLATFORM}" ]; then
     export CXX="${PREFARCHS[${TARGETPLATFORM}]}-g++"
     export CC="${PREFARCHS[${TARGETPLATFORM}]}-gcc"
     ./configure \
-        --prefix=${PREFIX}/ --with-fbbin=${PREFIX}/bin/ --with-fbsbin=${PREFIX}/bin/ --with-fblib=${PREFIX}/lib/ \
-        --with-fbinclude=${PREFIX}/include/ --with-fbdoc=${PREFIX}/doc/ --with-fbudf=${PREFIX}/UDF/ \
-        --with-fbsample=${PREFIX}/examples/ --with-fbsample-db=${PREFIX}/examples/empbuild/ --with-fbhelp=${PREFIX}/help/ \
-        --with-fbintl=${PREFIX}/intl/ --with-fbmisc=${PREFIX}/misc/ --with-fbplugins=${PREFIX}/ \
-        --with-fbconf="${VOLUME}/etc/" --with-fbmsg=${PREFIX}/ \
+        --prefix="${PREFIX}"/ --with-fbbin="${PREFIX}"/bin/ --with-fbsbin="${PREFIX}"/bin/ --with-fblib="${PREFIX}"/lib/ \
+        --with-fbinclude="${PREFIX}"/include/ --with-fbdoc="${PREFIX}"/doc/ --with-fbudf="${PREFIX}"/UDF/ \
+        --with-fbsample="${PREFIX}"/examples/ --with-fbsample-db="${PREFIX}"/examples/empbuild/ --with-fbhelp="${PREFIX}"/help/ \
+        --with-fbintl="${PREFIX}"/intl/ --with-fbmisc="${PREFIX}"/misc/ --with-fbplugins="${PREFIX}"/ \
+        --with-fbconf="${VOLUME}/etc/" --with-fbmsg="${PREFIX}"/ \
         --with-fblog="${VOLUME}/log/" --with-fbglock=/var/firebird/run/ \
         --with-fbsecure-db="${VOLUME}/system" \
         --host="${CONFARCHS[${TARGETPLATFORM}]}" --target="${CONFARCHS[${TARGETPLATFORM}]}" --build="${CONFARCHS[${TARGETPLATFORM}]}"
 else
     ./configure \
-        --prefix=${PREFIX}/ --with-fbbin=${PREFIX}/bin/ --with-fbsbin=${PREFIX}/bin/ --with-fblib=${PREFIX}/lib/ \
-        --with-fbinclude=${PREFIX}/include/ --with-fbdoc=${PREFIX}/doc/ --with-fbudf=${PREFIX}/UDF/ \
-        --with-fbsample=${PREFIX}/examples/ --with-fbsample-db=${PREFIX}/examples/empbuild/ --with-fbhelp=${PREFIX}/help/ \
-        --with-fbintl=${PREFIX}/intl/ --with-fbmisc=${PREFIX}/misc/ --with-fbplugins=${PREFIX}/ \
-        --with-fbconf="${VOLUME}/etc/" --with-fbmsg=${PREFIX}/ \
+        --prefix="${PREFIX}"/ --with-fbbin="${PREFIX}"/bin/ --with-fbsbin="${PREFIX}"/bin/ --with-fblib="${PREFIX}"/lib/ \
+        --with-fbinclude="${PREFIX}"/include/ --with-fbdoc="${PREFIX}"/doc/ --with-fbudf="${PREFIX}"/UDF/ \
+        --with-fbsample="${PREFIX}"/examples/ --with-fbsample-db="${PREFIX}"/examples/empbuild/ --with-fbhelp="${PREFIX}"/help/ \
+        --with-fbintl="${PREFIX}"/intl/ --with-fbmisc="${PREFIX}"/misc/ --with-fbplugins="${PREFIX}"/ \
+        --with-fbconf="${VOLUME}/etc/" --with-fbmsg="${PREFIX}"/ \
         --with-fblog="${VOLUME}/log/" --with-fbglock=/var/firebird/run/ \
         --with-fbsecure-db="${VOLUME}/system"
 fi
-make -j${CPUC}
+make -j"${CPUC}"
 cd gen
 make -f Makefile.install tarfile
-mv *.tar.gz ../firebird.tar.gz
+mv ./*.tar.gz ../firebird.tar.gz
 cd ..
 
