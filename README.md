@@ -12,6 +12,11 @@
 
 ## What's New
 
+### Firebird Project is happy to announce general availability of [Firebird 4.0.1](https://firebirdsql.org/en/firebird-4-0-1/) — the first point release in the Firebird 4.0 series.
+
+This sub-release offers many bug fixes and also adds a few improvements, please refer to the [Release Notes](https://firebirdsql.org/file/documentation/release_notes/html/en/4_0/rlsnotes40.html) for the full list of changes.
+Binary kits for Windows, Linux and Android platforms are immediately available for [download](https://firebirdsql.org/en/firebird-4-0-1/).
+
 ### Firebird 3.0.8 sub-release is available
 
 Firebird Project is happy to announce general availability of [Firebird 3.0.8](https://firebirdsql.org/en/firebird-3-0-8/) — the latest point release in the Firebird 3.0 series.
