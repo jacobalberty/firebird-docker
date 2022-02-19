@@ -57,6 +57,7 @@ if [ "${TARGETPLATFORM}" != "${BUILDPLATFORM}" ]; then
         libtomcrypt-dev:"$DEBARCH" \
         libtommath-dev:"$DEBARCH" \
         zlib1g-dev:"$DEBARCH"
+    update-alternatives --install /usr/bin/objcopy objcopy "/usr/bin/${PREFARCHS[${TARGETPLATFORM}]}-objcopy" 20
     export CXX="${PREFARCHS[${TARGETPLATFORM}]}-g++"
     export CC="${PREFARCHS[${TARGETPLATFORM}]}-gcc"
     ./configure \
