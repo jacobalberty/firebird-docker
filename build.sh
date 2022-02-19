@@ -6,7 +6,9 @@ apt-get update
 apt-get install -qy --no-install-recommends \
     libicu67 \
     libncurses6 \
-    libtommath1
+    libtommath1 \
+    netbase \
+    procps
 apt-get install -qy --no-install-recommends \
     bzip2 \
     ca-certificates \
