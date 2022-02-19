@@ -16,7 +16,9 @@ RUN apt-get update && \
         g++ \
         gcc \
         libncurses5-dev \
-        make && \
+        make \
+        netbase \
+        procps && \
         mkdir -p /home/icu && \
         cd /home/icu && \
         curl -L -o icu4c.tar.gz -L "${ICU_URL}" && \
