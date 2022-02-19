@@ -1,7 +1,0 @@
-services:
- - docker
-install:
-  - docker build -t firebird .
-script:
-  - chmod 777 travis.sh
-  - ./travis.sh
