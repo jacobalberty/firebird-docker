@@ -13,7 +13,9 @@ apt-get install -qy --no-install-recommends \
     libicu67 \
     libncurses6 \
     libtomcrypt1 \
-    libtommath1
+    libtommath1 \
+    netbase \
+    procps
 
 apt-get install -qy --no-install-recommends \
     ca-certificates \

@@ -7,7 +7,9 @@ apt-get install -qy --no-install-recommends \
     libicu67 \
     libncurses6 \
     libtomcrypt1 \
-    libtommath1
+    libtommath1 \
+    netbase \
+    procps
 
 cd /home/firebird
 tar --strip=1 -xf firebird.tar.gz
