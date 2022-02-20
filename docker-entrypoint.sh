@@ -67,6 +67,30 @@ confSet() {
     sed -i "s~^\(${1}\s*=\s*\).*$~\1${2}~" "${confFile}"
 }
 
+restoreBackups() {
+	if [ ! -f /firebird/etc/SYSDBA.password ]; then
+		echo "Will not attempt to restore backups because no '/firebird/etc/SYSDBA.password' found"
+		return
+	fi
+	(
+	. /firebird/etc/SYSDBA.password
+	for fbk in /firebird/restore/*.fbk; do
+		(
+		basename="$(basename -- $fbk)"
+		fname="${basename%.*}"
+		if [ ! -f "/firebird/data/${fname}.fdb" ]; then
+			if [ -f "/firebird/restore/${fname}.env" ]; then
+				. "/firebird/restore/${fname}.env"
+			fi
+			echo -n "Restoring '$fbk' "
+			"${PREFIX}/bin/gbak" -c -user "${RESTORE_USER:-$ISC_USER}" -password "${RESTORE_PASSWORD:-$ISC_PASSWORD}" "$fbk" "/firebird/data/${fname}.fdb"   
+			echo "to '/firebird/data/${fname}.fdb'"
+		fi
+		)
+	done
+	)
+}
+
 firebirdSetup() {
   # Create any missing folders
   mkdir -p "${VOLUME}/system"
@@ -182,6 +206,7 @@ EOL
 
 if [[ "$1" == "firebird" ]]; then
   firebirdSetup
+  restoreBackups
   trap 'kill -TERM "$FBPID"' SIGTERM
 
   /usr/local/firebird/bin/fbguard &
