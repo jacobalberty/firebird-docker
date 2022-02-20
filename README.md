@@ -12,6 +12,11 @@
 
 ## What's New
 
+### Automatic restore of backups in `/firebird/restore`
+
+This image will now check for any backups in `/firebird/restore` ending in the file extension `.fbk` and attempt to restore them to the same filename but with the extension `.fdb` in `/firebird/data`. It will only attempt to restore backups if the equivalent `.fdb` does not already exist in `/firebird/data`. For more details on this feature please see the [`/firebird/restore` volume description](#firebirdrestore)
+
+
 ### Firebird 3.0.9 sub-release is available
 
 Firebird Project is happy to announce general availability of [Firebird 3.0.9](https://firebirdsql.org/en/firebird-3-0-9/) — the latest point release in the Firebird 3.0 series.
