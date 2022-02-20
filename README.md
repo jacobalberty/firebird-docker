@@ -183,6 +183,13 @@ This single volume supercedes all of the old volumes with most of the old volume
 #### `/firebird/data`
 Default location to put database files
 
+#### `/firebird/restore`
+Any `.fbk` files located in here that do not have a matching `.fdb` file under `/firebird/data` will automatically be restored via `gbak` to `/firebird/data` on container start.
+The function that handles restoration starts by looking for `/firebird/etc/SYSDBA.password` if the file doesn't exist then no restoration attempts will be made.
+If that file exists then it will check for a `.env` file matching the `.fbk` file in `/firebird/restore` and attempt to load `RESTORE_USER` and `RESTORE_PASSWORD` from that file but will fall back to `ISC_USER` and `ISC_PASSWORD` from `/firebird/etc/SYSDBA.password` if those values do not exist in the `.env` file or the `.env` file is missing.
+
+So for example if you have `/firebird/restore/database.fbk` the script will first check if `/firebird/etc/SYSDBA.password` exists and fail if it doesn't. It will then check if `/firebird/data/database.fdb` exists. If that file does not exist the script will then attempt to restore `/firebird/restore/database.fbk` to `/firebird/data/database.fdb` using either `RESTORE_USER` and `RESTORE_PASSWORD` from `/firebird/restore/database.env` or if that file does not exist it will use `ISC_USER` and `ISC_PASSWORD` from  `/firebird/etc/SYSDBA.password`.
+
 #### `/firebird/system`
 security database DIR
 
@@ -208,7 +215,7 @@ Database lock directory
 ## Exposes: 
 ### 3050/tcp
 
-## Health Check
+## Health Check0
 I have now added [HEALTHCHECK support](https://docs.docker.com/engine/reference/builder/#healthcheck) to the image. By default it uses nc to check port 3050.
 If you would like it to perform a more thorough check then you can create `/firebird/etc/docker-healthcheck.conf`
 If you add `HC_USER` `HC_PASS` and `HC_DB` to that file then the healthcheck will attempt a simple query against the specified database to determine server status.
