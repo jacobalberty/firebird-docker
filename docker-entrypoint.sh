@@ -73,6 +73,8 @@ restoreBackups() {
 		return
 	fi
 	(
+	shopt -s nullglob
+	set +e
 	. /firebird/etc/SYSDBA.password
 	for fbk in /firebird/restore/*.fbk; do
 		(
@@ -88,6 +90,7 @@ restoreBackups() {
 		fi
 		)
 	done
+	set -e
 	)
 }
 
