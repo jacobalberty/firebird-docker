@@ -60,10 +60,13 @@ RUN apt-get update && \
     mv ${VOLUME}/system/security2.fdb ${PREFIX}/skel/security2.fdb && \
     mv "${VOLUME}/etc" "${PREFIX}/skel"
 
+RUN echo $'RemoteServicePort = 3051 \n \
+RemoteAuxPort = 3052' > ${PREFIX}/skel/etc/firebird.conf
+
 
 VOLUME ["/firebird"]
 
-EXPOSE 3050/tcp
+EXPOSE 3051-3052/tcp
 
 COPY docker-entrypoint.sh ${PREFIX}/docker-entrypoint.sh
 RUN chmod +x ${PREFIX}/docker-entrypoint.sh
