@@ -12,7 +12,7 @@
 
 ## What's New
 
-###Firebird 3.0.10 sub-release is available
+### Firebird 3.0.10 sub-release is available
 
 Firebird Project is happy to announce general availability of [Firebird 3.0.10](https://firebirdsql.org/en/firebird-3-0-10/) — the latest point release in the Firebird 3.0 series.
 
