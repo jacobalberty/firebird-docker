@@ -6,16 +6,23 @@
 
 [`2.5-ss`, `v2.5.9-ss` (*2.5-ss/Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/2.5-ss/Dockerfile)
 
-[`3.0`, `v3.0`, `v3.0.9` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/3.0/Dockerfile)
+[`3.0`, `v3.0`, `v3.0.10` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/3.0/Dockerfile)
 
 [`v4.0`, `v4.0.1`, `latest` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/Dockerfile)
 
 ## What's New
 
+###Firebird 3.0.10 sub-release is available
+
+Firebird Project is happy to announce general availability of [Firebird 3.0.10](https://firebirdsql.org/en/firebird-3-0-10/) — the latest point release in the Firebird 3.0 series.
+
+This sub-release offers many bug fixes and also adds a few improvements, please refer to the [Release Notes](https://firebirdsql.org/file/documentation/release_notes/html/en/3_0/rlsnotes30.html) for the full list of changes.
+Binary kits for Windows, Linux and Android platforms are immediately available for [download](https://firebirdsql.org/en/firebird-3-0-10/), packages for Mac OS will follow shortly.
+
+
 ### Automatic restore of backups in `/firebird/restore`
 
 This image will now check for any backups in `/firebird/restore` ending in the file extension `.fbk` and attempt to restore them to the same filename but with the extension `.fdb` in `/firebird/data`. It will only attempt to restore backups if the equivalent `.fdb` does not already exist in `/firebird/data`. For more details on this feature please see the [`/firebird/restore` volume description](#firebirdrestore)
-
 
 ### Firebird 3.0.9 sub-release is available
 
