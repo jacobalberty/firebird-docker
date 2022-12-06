@@ -68,30 +68,40 @@ confSet() {
 }
 
 restoreBackups() {
-	if [ ! -f /firebird/etc/SYSDBA.password ]; then
-		echo "Will not attempt to restore backups because no '/firebird/etc/SYSDBA.password' found"
-		return
-	fi
-	(
-	shopt -s nullglob
-	set +e
-	. /firebird/etc/SYSDBA.password
-	for fbk in /firebird/restore/*.fbk; do
-		(
-		basename="$(basename -- $fbk)"
-		fname="${basename%.*}"
-		if [ ! -f "/firebird/data/${fname}.fdb" ]; then
-			if [ -f "/firebird/restore/${fname}.env" ]; then
-				. "/firebird/restore/${fname}.env"
-			fi
-			echo -n "Restoring '$fbk' "
-			"${PREFIX}/bin/gbak" -c -user "${RESTORE_USER:-$ISC_USER}" -password "${RESTORE_PASSWORD:-$ISC_PASSWORD}" "$fbk" "/firebird/data/${fname}.fdb"   
-			echo "to '/firebird/data/${fname}.fdb'"
-		fi
-		)
-	done
-	set -e
-	)
+        if [ ! -f /firebird/etc/SYSDBA.password ]; then
+                echo "Will not attempt to restore backups because no '/firebird/etc/SYSDBA.password' found"
+                return
+        fi
+        (
+        shopt -s nullglob
+        set +e
+        . /firebird/etc/SYSDBA.password
+        for fbk in /firebird/restore/*.fbk; do
+                (
+                basename="$(basename -- $fbk)"
+                fname="${basename%.*}"
+                if [ ! -f "/firebird/data/${fname}.fdb" ]; then
+                        if [ -f "/firebird/restore/${fname}.env" ]; then
+                                . "/firebird/restore/${fname}.env"
+                        fi
+                        echo -n "Restoring '$fbk' "
+                        "${PREFIX}/bin/gbak" -c -user "${RESTORE_USER:-$ISC_USER}" -password "${RESTORE_PASSWORD:-$ISC_PASSWORD}" "$fbk" "/firebird/data/${fname}.fdb"
+                        echo "to '/firebird/data/${fname}.fdb'"
+                fi
+                )
+        done
+        set -e
+        )
+}
+
+firebirdAliases() {
+    while IFS=';' read -ra FBALIAS; do
+      for i in "${FBALIAS[@]}"; do
+        if [ -z "${i##*=*}" ]; then
+              "${PREFIX}"/bin/registerDatabase.sh "${i%=*}" "${i#*=}"
+          fi
+      done
+  done <<< "$FIREBIRD_ALIASES"
 }
 
 firebirdSetup() {
@@ -103,7 +113,6 @@ firebirdSetup() {
       cp -R "${PREFIX}/skel/etc" "${VOLUME}/"
       file_env 'EnableLegacyClientAuth'
       file_env 'EnableWireCrypt'
-      file_env 'DataTypeCompatibility'
       if [[ ${EnableLegacyClientAuth} == 'true' ]]; then
           confSet AuthServer "Legacy_Auth, Srp, Win_Sspi"
           confSet AuthClient "Legacy_Auth, Srp, Win_Sspi"
@@ -113,13 +122,10 @@ firebirdSetup() {
       if [[ ${EnableWireCrypt} == 'true' ]]; then
           confSet WireCrypt "enabled"
       fi
-      if [[ ${DataTypeCompatibility} != '' ]]; then
-          confSet DataTypeCompatibility "${DataTypeCompatibility}"
-      fi
   fi
 
-  if [ ! -f "${VOLUME}/system/security4.fdb" ]; then
-      cp "${PREFIX}/skel/security4.fdb" "${VOLUME}/system/security4.fdb"
+  if [ ! -f "${VOLUME}/system/security3.fdb" ]; then
+      cp "${PREFIX}/skel/security3.fdb" "${VOLUME}/system/security3.fdb"
       file_env 'ISC_PASSWORD'
       if [ -z "${ISC_PASSWORD}" ]; then
          ISC_PASSWORD=$(createNewPassword)
@@ -128,36 +134,36 @@ firebirdSetup() {
 
       # initialize SYSDBA user for Srp authentication
       "${PREFIX}"/bin/isql -user sysdba security.db <<EOL
-create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Srp;
-commit;
-quit;
+  create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Srp;
+  commit;
+  quit;
 EOL
 
       if [[ ${EnableLegacyClientAuth} == 'true' ]]; then
           # also initialize/reset SYSDBA user for legacy authentication
           "${PREFIX}"/bin/isql -user sysdba security.db <<EOL
-create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Legacy_UserManager;
-commit;
-quit;
+  create or alter user SYSDBA password '${ISC_PASSWORD}' using plugin Legacy_UserManager;
+  commit;
+  quit;
 EOL
       fi
   # create or alter user SYSDBA password '${ISC_PASSWORD}';
 
       cat > "${VOLUME}/etc/SYSDBA.password" <<EOL
-# Firebird generated password for user SYSDBA is:
-#
-ISC_USER=sysdba
-ISC_PASSWORD=${ISC_PASSWORD}
-#
-# Also set legacy variable though it can't be exported directly
-#
-ISC_PASSWD=${ISC_PASSWORD}
-#
-# generated at time $(date)
-#
-# Your password can be changed to a more suitable one using
-# SQL operator ALTER USER.
-#
+  # Firebird generated password for user SYSDBA is:
+  #
+  ISC_USER=sysdba
+  ISC_PASSWORD=${ISC_PASSWORD}
+  #
+  # Also set legacy variable though it can't be exported directly
+  #
+  ISC_PASSWD=${ISC_PASSWORD}
+  #
+  # generated at time $(date)
+  #
+  # Your password can be changed to a more suitable one using
+  # SQL operator ALTER USER.
+  #
 
 EOL
 
@@ -198,18 +204,13 @@ EOL
       fi
   fi
 
-  while IFS=';' read -ra FBALIAS; do
-      for i in "${FBALIAS[@]}"; do
-  	if [ -z "${i##*=*}" ]; then
-              "${PREFIX}"/bin/registerDatabase.sh "${i%=*}" "${i#*=}"
-          fi
-      done
-  done <<< "$FIREBIRD_ALIASES"
+  
 }
 
-if [[ "$1" == "firebird" ]]; then
+if [ "$1" == "firebird" ]; then
   firebirdSetup
   restoreBackups
+  firebirdAliases
   trap 'kill -TERM "$FBPID"' SIGTERM
 
   /usr/local/firebird/bin/fbguard &
@@ -217,6 +218,5 @@ if [[ "$1" == "firebird" ]]; then
   FBPID=$!
   wait "$FBPID"
 fi
-
 
 exec "$@"
