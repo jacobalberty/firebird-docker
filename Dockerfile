@@ -28,9 +28,10 @@ ENV VOLUME=/firebird
 ENV DEBIAN_FRONTEND noninteractive
 ENV DBPATH=/firebird/data
 
-VOLUME ["/firebird"]
+VOLUME ["/Volume"]
 
 EXPOSE 3050/tcp
+EXPOSE 8082/tcp
 
 COPY --from=build /home/firebird/firebird.tar.gz /home/firebird/firebird.tar.gz
 
