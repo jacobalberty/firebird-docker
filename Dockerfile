@@ -6,7 +6,7 @@ ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 
 ENV PREFIX=/usr/local/firebird
-ENV VOLUME=/firebird
+ENV VOLUME=/Volume
 ENV DEBIAN_FRONTEND noninteractive
 ENV FBURL=https://github.com/FirebirdSQL/firebird/releases/download/v4.0.2/Firebird-4.0.2.2816-0.tar.xz
 ENV DBPATH=/firebird/data
