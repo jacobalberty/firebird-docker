@@ -31,6 +31,7 @@ ENV DBPATH=/firebird/data
 VOLUME ["/firebird"]
 
 EXPOSE 3050/tcp
+EXPOSE 8082/tcp
 
 COPY --from=build /home/firebird/firebird.tar.gz /home/firebird/firebird.tar.gz
 
