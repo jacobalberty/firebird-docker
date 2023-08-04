@@ -166,6 +166,8 @@ EOL
   file_env 'FIREBIRD_USER'
   file_env 'FIREBIRD_PASSWORD'
   file_env 'FIREBIRD_DATABASE'
+  file_env 'FIREBIRD_PAGESIZE'
+  file_env 'FIREBIRD_CHARSET'  
 
   build isql "set sql dialect 3;"
   if [ -n "${FIREBIRD_DATABASE}" ] && [ ! -f "${DBPATH}/${FIREBIRD_DATABASE}" ]; then
@@ -185,7 +187,18 @@ EOL
       else
           stmt+=" USER '${ISC_USER}' PASSWORD '${ISC_PASSWORD}'"
       fi
-      stmt+=" DEFAULT CHARACTER SET UTF8;";
+      if [ "${FIREBIRD_PAGESIZE}" ];  then
+          stmt+=" PAGE_SIZE ${FIREBIRD_PAGESIZE}";
+      else
+          stmt+=" PAGE_SIZE 8192";
+      fi
+      if [ "${FIREBIRD_CHARSET}" ];  then
+          stmt+=" DEFAULT CHARACTER SET ${FIREBIRD_CHARSET}";
+      else
+          stmt+=" DEFAULT CHARACTER SET UTF8";
+      fi
+      stmt+=";";
+      
       build isql "${stmt}";
       build isql "COMMIT;"
       if [ "${isql}" ]; then
