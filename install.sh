@@ -4,7 +4,7 @@ set -e
 apt-get update
 apt-get install -qy --no-install-recommends \
     libatomic1 \
-    libicu67 \
+    libicu72 \
     libncurses6 \
     libtomcrypt1 \
     libtommath1 \
