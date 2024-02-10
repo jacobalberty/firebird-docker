@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM debian:bullseye-slim as build
+FROM --platform=$BUILDPLATFORM debian:bookworm-slim as build
 
 LABEL maintainer="jacob.alberty@foundigital.com"
 
@@ -21,7 +21,7 @@ RUN chmod +x ./build.sh && \
     ./build.sh && \
     rm -f ./build.sh
 
-FROM --platform=$TARGETPLATFORM debian:bullseye-slim
+FROM --platform=$TARGETPLATFORM debian:bookworm-slim
 
 ENV PREFIX=/usr/local/firebird
 ENV VOLUME=/firebird
