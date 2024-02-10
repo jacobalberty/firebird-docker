@@ -118,8 +118,8 @@ firebirdSetup() {
       fi
   fi
 
-  if [ ! -f "${VOLUME}/system/security4.fdb" ]; then
-      cp "${PREFIX}/skel/security4.fdb" "${VOLUME}/system/security4.fdb"
+  if [ ! -f "${VOLUME}/system/security5.fdb" ]; then
+      cp "${PREFIX}/skel/security5.fdb" "${VOLUME}/system/security5.fdb"
       file_env 'ISC_PASSWORD'
       if [ -z "${ISC_PASSWORD}" ]; then
          ISC_PASSWORD=$(createNewPassword)
