@@ -10,7 +10,7 @@ CPUC=$(getconf _NPROCESSORS_ONLN)
 apt-get update
 apt-get install -qy --no-install-recommends \
     libatomic1 \
-    libicu67 \
+    libicu72 \
     libncurses6 \
     libtomcrypt1 \
     libtommath1 \
@@ -29,7 +29,9 @@ apt-get install -qy --no-install-recommends \
     make \
     unzip \
     xz-utils \
-    zlib1g-dev
+    zlib1g-dev \
+    cmake
+
 if [ -d "/home/fixes/pre_fetch/${DEBARCH}" ]; then
     find "/home/fixes/pre_fetch/${DEBARCH}" -type f -exec '{}' \;
 fi
