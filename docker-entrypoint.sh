@@ -153,6 +153,10 @@ firebirdSetup() {
       if [[ ${DataTypeCompatibility} != '' ]]; then
           confSet DataTypeCompatibility "${DataTypeCompatibility}"
       fi
+      file_env 'RestrictAccess'
+      if [[ ${RestrictAccess} == 'true' ]]; then
+          confSet DatabaseAccess "Restrict ${DBPATH}"
+      fi
   fi
 
   if [ ! -f "${VOLUME}/system/security5.fdb" ]; then
