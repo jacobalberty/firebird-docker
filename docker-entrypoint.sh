@@ -67,6 +67,37 @@ confSet() {
     sed -i "s~^\(${1}\s*=\s*\).*$~\1${2}~" "${confFile}"
 }
 
+docker_process_init_files() {
+  printf '\n'
+  local f
+
+  for f; do
+    case "$f" in
+      *.sh)
+        # https://github.com/docker-library/postgres/issues/450#issuecomment-393167936
+        # https://github.com/docker-library/postgres/pull/452
+        if [ -x "$f" ]; then
+          printf '%s: running %s\n' "$0" "$f"
+          "$f"
+        else
+          printf '%s: sourcing %s\n' "$0" "$f"
+          . "$f"
+        fi
+        ;;
+      *.sql)     printf '%s: running %s\n' "$0" "$f"; docker_process_sql -i "$f"; printf '\n' ;;
+      *.sql.gz)  printf '%s: running %s\n' "$0" "$f"; gunzip -c "$f" | docker_process_sql; printf '\n' ;;
+      *.sql.xz)  printf '%s: running %s\n' "$0" "$f"; xzcat "$f" | docker_process_sql; printf '\n' ;;
+      *.sql.zst) printf '%s: running %s\n' "$0" "$f"; zstd -dc "$f" | docker_process_sql; printf '\n' ;;
+      *)         printf '%s: ignoring %s\n' "$0" "$f" ;;
+    esac
+    printf '\n'
+  done
+}
+
+docker_process_sql() {
+  "${PREFIX}"/bin/isql -user sysdba "$@"
+}
+
 restoreBackups() {
 	if [ ! -f /firebird/etc/SYSDBA.password ]; then
 		echo "Will not attempt to restore backups because no '/firebird/etc/SYSDBA.password' found"
@@ -95,6 +126,12 @@ restoreBackups() {
 }
 
 firebirdSetup() {
+  declare -g DATABASE_ALREADY_EXISTS
+  : "${DATABASE_ALREADY_EXISTS:=}"
+  if [ -s "${VOLUME}/etc/firebird.conf" ]; then
+    DATABASE_ALREADY_EXISTS='true'
+  fi
+
   # Create any missing folders
   mkdir -p "${VOLUME}/system"
   mkdir -p "${VOLUME}/log"
@@ -196,6 +233,11 @@ EOL
           build isql "QUIT;"
           run isql
       fi
+  fi
+
+  if [ -z "$DATABASE_ALREADY_EXISTS" ]; then
+    echo processing files
+    docker_process_init_files /docker-entrypoint-initdb.d/*
   fi
 
   while IFS=';' read -ra FBALIAS; do
