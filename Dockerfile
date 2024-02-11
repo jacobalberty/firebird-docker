@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM debian:bullseye-slim as build
+FROM --platform=$BUILDPLATFORM debian:bookworm-slim as build
 
 LABEL maintainer="jacob.alberty@foundigital.com"
 
@@ -8,7 +8,7 @@ ARG BUILDPLATFORM
 ENV PREFIX=/usr/local/firebird
 ENV VOLUME=/firebird
 ENV DEBIAN_FRONTEND noninteractive
-ENV FBURL=https://github.com/FirebirdSQL/firebird/releases/download/v4.0.2/Firebird-4.0.2.2816-0.tar.xz
+ENV FBURL=https://github.com/FirebirdSQL/firebird/releases/download/v5.0.0/Firebird-5.0.0.1306-0-source.tar.xz
 ENV DBPATH=/firebird/data
 
 COPY fixes /home/fixes
@@ -21,7 +21,7 @@ RUN chmod +x ./build.sh && \
     ./build.sh && \
     rm -f ./build.sh
 
-FROM --platform=$TARGETPLATFORM debian:bullseye-slim
+FROM --platform=$TARGETPLATFORM debian:bookworm-slim
 
 ENV PREFIX=/usr/local/firebird
 ENV VOLUME=/firebird
@@ -47,7 +47,7 @@ RUN chmod +x ${PREFIX}/docker-entrypoint.sh
 COPY docker-healthcheck.sh ${PREFIX}/docker-healthcheck.sh
 RUN chmod +x ${PREFIX}/docker-healthcheck.sh \
     && apt-get update \
-    && apt-get -qy install netcat \
+    && apt-get -qy install netcat-traditional \
     && rm -rf /var/lib/apt/lists/*
 HEALTHCHECK CMD ${PREFIX}/docker-healthcheck.sh || exit 1
 

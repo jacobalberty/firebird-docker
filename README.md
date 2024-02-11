@@ -8,9 +8,21 @@
 
 [`3.0`, `v3.0`, `v3.0.10` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/3.0/Dockerfile)
 
-[`v4.0`, `v4.0.1`, `latest` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/Dockerfile)
+[`v4.0`, `v4.0.1` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/4.0/Dockerfile)
 
+[`v5.0`, `v5.0`, `latest` (*Dockerfile*)](https://github.com/jacobalberty/firebird-docker/blob/master/Dockerfile)
 ## What's New
+
+### Firebird 5.0 Is Released
+
+
+Firebird Project is happy to announce general availability of [Firebird 5.0](https://firebirdsql.org/en/firebird-5-0/) — the latest major release of the Firebird relational database for Windows, Linux, MacOS and Android platforms.
+
+This release introduces improvements in areas of performance, multithreaded processing (including backup, restore, sweep), SQL queries profiling, with better scalability and numerous enhancements in SQL language.
+
+Please refer to the [Release Notes](https://firebirdsql.org/file/documentation/release_notes/html/en/5_0/rlsnotes50.html) for the full list of changes. The complete [Language Reference](https://firebirdsql.org/file/documentation/html/en/refdocs/fblangref50/firebird-50-language-reference.html) is also available.
+
+Binary kits for all supported platforms are immediately available for [download](https://firebirdsql.org/en/firebird-5-0/).
 
 ### Firebird 4.0.2 sub-release is available
 
