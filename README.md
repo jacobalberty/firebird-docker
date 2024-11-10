@@ -1,3 +1,7 @@
+# Archived
+
+This repo has been archived please get updates to your images from https://github.com/fdcastel/firebird-docker
+
 # docker Firebird
 
 ## Supported tags and respective `Dockerfile` links
