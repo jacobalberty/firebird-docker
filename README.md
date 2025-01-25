@@ -1,6 +1,6 @@
 # Archived
 
-This repo has been archived please get updates to your images from https://github.com/fdcastel/firebird-docker
+This repo has been archived please get updates to your images from https://hub.docker.com/r/firebirdsql/firebird
 
 # docker Firebird
 
